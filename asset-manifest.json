@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/mapup-reactjs/static/css/main.1722e892.css",
-    "main.js": "/mapup-reactjs/static/js/main.b77c70aa.js",
+    "main.js": "/mapup-reactjs/static/js/main.347cbc63.js",
     "static/js/636.e6f69f2e.chunk.js": "/mapup-reactjs/static/js/636.e6f69f2e.chunk.js",
     "static/js/787.09c10f86.chunk.js": "/mapup-reactjs/static/js/787.09c10f86.chunk.js",
     "static/media/roboto-all-500-normal.woff": "/mapup-reactjs/static/media/roboto-all-500-normal.0ab669b7a0d19b178f57.woff",
@@ -39,12 +39,12 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/mapup-reactjs/static/media/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
     "index.html": "/mapup-reactjs/index.html",
     "main.1722e892.css.map": "/mapup-reactjs/static/css/main.1722e892.css.map",
-    "main.b77c70aa.js.map": "/mapup-reactjs/static/js/main.b77c70aa.js.map",
+    "main.347cbc63.js.map": "/mapup-reactjs/static/js/main.347cbc63.js.map",
     "636.e6f69f2e.chunk.js.map": "/mapup-reactjs/static/js/636.e6f69f2e.chunk.js.map",
     "787.09c10f86.chunk.js.map": "/mapup-reactjs/static/js/787.09c10f86.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1722e892.css",
-    "static/js/main.b77c70aa.js"
+    "static/js/main.347cbc63.js"
   ]
 }
