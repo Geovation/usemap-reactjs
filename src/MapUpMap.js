@@ -1,6 +1,8 @@
 import React from 'react';
 import Map from 'react-map-gl';
-import maplibregl from 'maplibre-gl';
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import maplibregl from "!maplibre-gl";
 
 function MapUpMap() {
   return (
