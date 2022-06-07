@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -43,6 +44,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const testData = [
+  { label: 'Ordnance Survey', location: [-1.471061, 50.9382] },
+  { label: 'Bradford on Avon', location: [-2.249391, 51.347659] },
+  { label: 'Geovation', location: [-0.099754, 51.52435] },
+];
+
 function Search() {
 
   return (
@@ -50,9 +57,17 @@ function Search() {
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
+      <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={testData}
+        getOptionLabel={(option) => option.label}
+        style={{ width: 300 }}
+        renderInput={(params) => {
+          const { InputLabelProps, InputProps, ...rest } = params;
+          return <StyledInputBase {...params.InputProps} {...rest} />
+        }
+        }
       />
     </SearchContainer>
   );
