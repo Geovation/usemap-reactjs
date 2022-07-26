@@ -1,6 +1,6 @@
-# MapUp ReactJS
+# UseMap ReactJS
 
-A ReactJS front end for the MapUp application. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A ReactJS front end for the UseMap application. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Getting Started
 
