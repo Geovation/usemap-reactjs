@@ -1,10 +1,10 @@
-import React from 'react';
-import Map from 'react-map-gl';
+import React from 'react'
+import Map from 'react-map-gl'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import maplibregl from "!maplibre-gl";
+import maplibregl from '!maplibre-gl'
 
-function MapUpMap() {
+function MapUpMap () {
   return (
     <Map
       initialViewState={{
@@ -14,9 +14,9 @@ function MapUpMap() {
       }}
       mapLib={maplibregl}
       style={{ width: '100vw', height: '100vh' }}
-      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+      mapStyle='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
     />
-  );
+  )
 }
 
-export default MapUpMap;
+export default MapUpMap
