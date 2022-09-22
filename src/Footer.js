@@ -11,9 +11,6 @@ const FooterContainer = styled('div')(({ theme }) => ({
     alignItems: 'center',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.black,1),
-    // '&:hover': {
-    //   backgroundColor: alpha(theme.palette.common.black, 1),
-    // },
     width: '100%',
     height : '90px',
   }));
@@ -21,9 +18,6 @@ const FooterContainer = styled('div')(({ theme }) => ({
 const UseMapSpan = styled('span')(({theme}) => ({
   postion: 'absolute',
   left: '10px',
-  
-  // display: 'flex',
-  // justifyContent: 'center',
   padding: 5,
 }));
 
@@ -41,9 +35,9 @@ function Footer()
     return (
         <FooterContainer>
           <img height="75" src={process.env.PUBLIC_URL + "/elelogo_transp.png"} />
-            <UseMapSpan> 
-               UseMap | <UseMapLink href="#">Terms and Conditions</UseMapLink>
-            </UseMapSpan>
+          <UseMapSpan> 
+              UseMap | <UseMapLink href="#">Terms and Conditions</UseMapLink>
+          </UseMapSpan>
         </FooterContainer>
     )
 }

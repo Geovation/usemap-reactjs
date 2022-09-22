@@ -5,7 +5,7 @@
     "sources": {
       "esri": {
         "type": "vector",
-        "url": "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=27700&key=MHc0JQm8IOI3imNzjG0nx74AymP5P6eZ"
+        "url": "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=27700&key=my-api-key"
       }
     },
     "layers": [

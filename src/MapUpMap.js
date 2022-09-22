@@ -1,12 +1,13 @@
 import React from 'react';
 import Map from 'react-map-gl';
-import Footer from './Footer';
+
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from "!maplibre-gl";
 import axios from "axios";
+
 function MapUpMap() {
 
-  let apiKey = "MHc0JQm8IOI3imNzjG0nx74AymP5P6eZ";
+  let apiKey = "my-api-key";
   let serviceUrl = 'https://api.os.uk/maps/vector/v1/vts';
 
   // BRANDON TEST AXIOS
@@ -30,8 +31,9 @@ function MapUpMap() {
       mapLib={maplibregl}
       style={{ width: '100vw', height: '100vh' }}
       mapStyle="OS_3857_Light_edited.json"
+      //two other ways to get styles: either through an API call or from github raw. take your pick.
       //mapStyle={serviceUrl + "/resources/styles?srs=3857&key=" + apiKey}
-      //mapStyle="https://raw.githubusercontent.com/OrdnanceSurvey/OS-Vector-Tile-API-Stylesheets/master/OS_VTS_27700_Dark.json"
+      //mapStyle="https://raw.githubusercontent.com/OrdnanceSurvey/OS-Vector-Tile-API-Stylesheets/master/OS_VTS_3857_Light.json"
     />
 
     
