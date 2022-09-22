@@ -1,24 +1,24 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-import Autocomplete from '@mui/material/Autocomplete';
+import * as React from 'react'
+import { styled, alpha } from '@mui/material/styles'
+import InputBase from '@mui/material/InputBase'
+import SearchIcon from '@mui/icons-material/Search'
+import Autocomplete from '@mui/material/Autocomplete'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.25)
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
+    width: 'auto'
+  }
+}))
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -27,8 +27,8 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   pointerEvents: 'none',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-}));
+  justifyContent: 'center'
+}))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -39,20 +39,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
+      width: '20ch'
+    }
+  }
+}))
 
 const testData = [
   { label: 'Ordnance Survey', location: [-1.471061, 50.9382] },
   { label: 'Bradford on Avon', location: [-2.249391, 51.347659] },
   { label: 'Geovation', location: [-0.099754, 51.52435] },
-  { label : 'Berwick-upon-Tweed', location : [-2.00477, 55.768824]}
-];
+  { label: 'Berwick-upon-Tweed', location: [-2.00477, 55.768824] }
+]
 
-function Search() {
-
+function Search () {
   return (
     <SearchContainer>
       <SearchIconWrapper>
@@ -60,18 +59,17 @@ function Search() {
       </SearchIconWrapper>
       <Autocomplete
         disablePortal
-        id="combo-box-demo"
+        id='combo-box-demo'
         options={testData}
-        getOptionLabel={(option) => option.label}
+        getOptionLabel={option => option.label}
         style={{ width: 300 }}
-        renderInput={(params) => {
-          const { InputLabelProps, InputProps, ...rest } = params;
+        renderInput={params => {
+          const { InputLabelProps, InputProps, ...rest } = params
           return <StyledInputBase {...params.InputProps} {...rest} />
-        }
-        }
+        }}
       />
     </SearchContainer>
-  );
+  )
 }
 
-export default Search;
+export default Search

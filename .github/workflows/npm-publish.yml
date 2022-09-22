@@ -3,9 +3,9 @@ name: Deploy to GH Pages
 on:
   push:
     branches:
-    - main
-    
-permissions: 
+      - main
+
+permissions:
   contents: write
 
 jobs:
