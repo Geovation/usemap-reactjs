@@ -30,9 +30,9 @@ function MapUpMap() {
       }}
       mapLib={maplibregl}
       style={{ width: '100vw', height: '100vh' }}
-      mapStyle="OS_3857_Light_edited.json"
+      //mapStyle="OS_3857_Light_edited.json"
       //two other ways to get styles: either through an API call or from github raw. take your pick.
-      //mapStyle={serviceUrl + "/resources/styles?srs=3857&key=" + apiKey}
+      mapStyle={serviceUrl + "/resources/styles?srs=3857&key=" + apiKey}
       //mapStyle="https://raw.githubusercontent.com/OrdnanceSurvey/OS-Vector-Tile-API-Stylesheets/master/OS_VTS_3857_Light.json"
     />
 
