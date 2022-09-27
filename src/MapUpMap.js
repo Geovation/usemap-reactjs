@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Map, useMap } from 'react-map-gl'
+import {testData} from'./Search';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
@@ -10,7 +11,6 @@ import proj4 from 'proj4'
 function MapUpMap () {
   const mapRef = React.useRef()
 
-  const apiKey = 'MHc0JQm8IOI3imNzjG0nx74AymP5P6eZ'
   const serviceUrl = 'https://api.os.uk/maps/vector/v1/vts'
 
   const map = (
@@ -23,7 +23,6 @@ function MapUpMap () {
       }}
       mapLib={maplibregl}
       style={{ width: '100vw', height: '100vh' }}
-    // mapStyle="OS_3857_Light_edited.json"
     // two other ways to get styles: either through an API call or from github raw. take your pick.
     // mapStyle={serviceUrl + "/resources/styles?srs=3857&key=" + apiKey}
     // mapStyle="https://raw.githubusercontent.com/OrdnanceSurvey/OS-Vector-Tile-API-Stylesheets/master/OS_VTS_3857_Light.json"
@@ -32,30 +31,42 @@ function MapUpMap () {
   )
 
   // const [query, setQuery] = useState("");
-  async function find (value) {
-    axios.get('https://api.os.uk/search/names/v1/find?query=' + value + '&key=' + apiKey)
-      .then(function (response) {
-        /* For explanation and debugging purposes we display the full response from the API in the console */
-        const place = response.data
-        console.log(place.header.totalresults == 0 ? 'no place found' : place.header.totalresults + ' places found')
-        if (place.header.totalresults > 0) {
-          const entry = place.results[0].GAZETTEER_ENTRY
-          const x = entry.GEOMETRY_X
-          const y = entry.GEOMETRY_Y
-          console.log(x, y)
-          const coords = OStoLngLat(x, y)
-          console.log('Result found at ' + entry.NAME1 + ', ' + entry.COUNTY_UNITARY + ', ' + entry.COUNTRY)
-          console.log(coords)
-          mapRef.current.flyTo({
-            center: coords,
-            essential: true,
-            zoom: 14
-          })
-        }
+  // async function find (value) {
+  //   axios.get('https://api.os.uk/search/names/v1/find?query=' + value + '&key=' + apiKey)
+  //     .then(function (response) {
+  //       /* For explanation and debugging purposes we display the full response from the API in the console */
+  //       const place = response.data
+  //       console.log(place.header.totalresults == 0 ? 'no place found' : place.header.totalresults + ' places found')
+  //       if (place.header.totalresults > 0) {
+  //         const entry = place.results[0].GAZETTEER_ENTRY
+  //         const x = entry.GEOMETRY_X
+  //         const y = entry.GEOMETRY_Y
+  //         console.log(x, y)
+  //         const coords = OStoLngLat(x, y)
+  //         console.log('Result found at ' + entry.NAME1 + ', ' + entry.COUNTY_UNITARY + ', ' + entry.COUNTRY)
+  //         console.log(coords)
+  //         mapRef.current.flyTo({
+  //           center: coords,
+  //           essential: true,
+  //           zoom: 14
+  //         })
+  //       }
 
-        return JSON.stringify(response.data, null, 2)
-      })
-  }
+  //       return JSON.stringify(response.data, null, 2)
+  //     })
+
+  async function find(value) {
+    const result = testData.find(element => {
+      return element.label == value;
+    });
+    let coords = result.location;
+    mapRef.current.flyTo({
+      center: coords,
+      essential: true,
+      zoom: 14
+    })
+  }  
+  
   useEffect(() => {
     document.getElementById('search').addEventListener('click', () => {
       document.title = document.getElementById('combo-box-demo').value

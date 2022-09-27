@@ -44,12 +44,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }))
 
-const testData = [
+export const testData = [
   { label: 'Ordnance Survey', location: [-1.471061, 50.9382] },
   { label: 'Bradford on Avon', location: [-2.249391, 51.347659] },
   { label: 'Geovation', location: [-0.099754, 51.52435] },
-  { label: 'Berwick-upon-Tweed', location: [-2.00477, 55.768824] },
-  { label: 'City of London' },
+  { label: 'Berwick-upon-Tweed', location: [-2.00477, 55.768824] }
 ]
 
 function Search () {
