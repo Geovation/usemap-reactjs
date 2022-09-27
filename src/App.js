@@ -1,36 +1,36 @@
-import React from 'react';
+import React from 'react'
 
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
+import AppBar from '@mui/material/AppBar'
+import CssBaseline from '@mui/material/CssBaseline'
+import Toolbar from '@mui/material/Toolbar'
 
-import AdbIcon from '@mui/icons-material/Adb';
-import Button from '@mui/material/Button';
-import MapUpMap from './MapUpMap';
-import Search from './Search';
+import AdbIcon from '@mui/icons-material/Adb'
+import Button from '@mui/material/Button'
+import MapUpMap from './MapUpMap'
+import Search from './Search'
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from './Header'
+import Footer from './Footer'
 
-import './App.css';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import './App.css'
+import 'maplibre-gl/dist/maplibre-gl.css'
 
-function App() {
+function App () {
   return (
-    <React.Fragment>
-      <Header/>
+    <>
+      <Header />
       <CssBaseline />
-      <AppBar position="fixed" color="transparent" elevation={0}>
+      <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
           <Search />
-          <Button style={{ width: 50, height: 50, padding : 5}} id="search">Search</Button>
+          <Button style={{ width: 50, height: 50, padding: 5 }} id='search'>Search</Button>
           <AdbIcon sx={{ mr: 1 }} />
         </Toolbar>
       </AppBar>
       <MapUpMap />
-      <Footer/>
-    </React.Fragment>
-  );
+      <Footer />
+    </>
+  )
 }
 
-export default App;
+export default App
