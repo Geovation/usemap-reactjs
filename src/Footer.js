@@ -12,7 +12,7 @@ const FooterContainer = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.black, 1),
   width: '100%',
-  height: '90px'
+  height: '60px'
 }))
 
 const UseMapSpan = styled('span')(({ theme }) => ({
@@ -35,7 +35,7 @@ function Footer () {
     <FooterContainer>
       <img
         alt='UseMap Logo'
-        height='75'
+        height='55'
         src={process.env.PUBLIC_URL + '/elelogo_transp.png'}
       />
       <UseMapSpan>
