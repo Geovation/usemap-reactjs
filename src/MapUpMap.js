@@ -13,10 +13,12 @@ function MapUpMap () {
         zoom: 16
       }}
       mapLib={maplibregl}
-      style={{ width: '100vw', height: '100vh' }}
+      style={{ position: 'fixed', left: 0, top: 60, width: '100vw', height: 'calc(100% - 120px)' }}
       mapStyle='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
     />
   )
 }
 
 export default MapUpMap
+
+// calc function CSS (100%-60px-90px)
