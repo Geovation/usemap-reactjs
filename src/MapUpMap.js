@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Map, useMap } from 'react-map-gl'
-import {testData} from'./Search';
+import { testData } from './Search'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
@@ -55,18 +55,18 @@ function MapUpMap () {
   //       return JSON.stringify(response.data, null, 2)
   //     })
 
-  async function find(value) {
+  async function find (value) {
     const result = testData.find(element => {
-      return element.label == value;
-    });
-    let coords = result.location;
+      return element.label == value
+    })
+    const coords = result.location
     mapRef.current.flyTo({
       center: coords,
       essential: true,
       zoom: 14
     })
-  }  
-  
+  }
+
   useEffect(() => {
     document.getElementById('search').addEventListener('click', () => {
       document.title = document.getElementById('combo-box-demo').value
