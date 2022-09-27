@@ -13,7 +13,7 @@ function MapUpMap () {
         zoom: 16
       }}
       mapLib={maplibregl}
-      style={{ position : 'fixed', left: 0, top: 60, width: '100vw', height: 'calc(100% - 120px)' }}
+      style={{ position: 'fixed', left: 0, top: 60, width: '100vw', height: 'calc(100% - 120px)' }}
       mapStyle='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
     />
   )
