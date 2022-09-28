@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import AppBar from '@mui/material/AppBar'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -16,17 +16,19 @@ import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 function App () {
+  const [location, setLocation] = useState([-1.471061, 50.9382])
+
   return (
     <>
       <Header />
       <CssBaseline />
       <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
-          <Search />
+          <Search setLocation={setLocation} />
           <AdbIcon sx={{ mr: 1 }} />
         </Toolbar>
       </AppBar>
-      <MapUpMap />
+      <MapUpMap location={location} />
       <Footer />
     </>
   )
