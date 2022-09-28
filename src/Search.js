@@ -51,7 +51,8 @@ const testData = [
   { label: 'Berwick-upon-Tweed', location: [-2.00477, 55.768824] }
 ]
 
-function Search () {
+function Search (props) {
+  const { setLocation } = props
   return (
     <SearchContainer>
       <SearchIconWrapper>
@@ -67,6 +68,7 @@ function Search () {
           const { InputLabelProps, InputProps, ...rest } = params
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
+        onChange={(event, newValue) => { if (newValue.location) { setLocation(newValue.location) } }}
       />
     </SearchContainer>
   )
