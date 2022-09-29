@@ -4,6 +4,8 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
 
+import { PlacesAPI } from './api/placesAPI'
+
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -48,7 +50,7 @@ const testData = [
   { label: 'Ordnance Survey', location: [-1.471061, 50.9382] },
   { label: 'Bradford on Avon', location: [-2.249391, 51.347659] },
   { label: 'Geovation', location: [-0.099754, 51.52435] },
-  { label: 'Berwick-upon-Tweed', location: [-2.00477, 55.768824] }
+  { label: 'Berwick upon Tweed', location: [-2.00477, 55.768824] }
 ]
 
 function Search (props) {
@@ -68,7 +70,14 @@ function Search (props) {
           const { InputLabelProps, InputProps, ...rest } = params
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
-        onChange={(event, newValue) => { if (newValue.location) { setLocation(newValue.location) } }}
+        onChange={(event, newValue) => {
+          if (newValue.location) { setLocation(newValue.location) }
+          PlacesAPI.autofill(newValue.label).then((response) => {
+            console.log(response.results.map(result => result.DPA.ADDRESS))
+            /* only console-logging right now, but we can access
+            the data and setLocation to coords of top response */
+          })
+        }}
       />
     </SearchContainer>
   )
