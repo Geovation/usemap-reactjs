@@ -5,7 +5,7 @@ import Map from 'react-map-gl'
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location } = props
+  const { location, styleVal } = props
   const mapRef = useRef()
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function MapUpMap (props) {
         width: '100vw',
         height: 'calc(100% - 120px)'
       }}
-      mapStyle='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
+      mapStyle={`https://basemaps.cartocdn.com/gl/${styleVal}-gl-style/style.json`}
     />
   )
 }
