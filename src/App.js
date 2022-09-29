@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 
 import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
-import Box from '@mui/material/Box'
 
 import MapUpMap from './MapUpMap'
 import Search from './Search'
