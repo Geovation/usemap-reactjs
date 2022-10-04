@@ -10,7 +10,7 @@ function MapUpMap (props) {
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.flyTo({ center: location, zoom: 16, essential: true })
+      mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
     }
   }, [location])
 

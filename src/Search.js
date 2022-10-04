@@ -3,7 +3,8 @@ import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
-
+import { useState } from 'react'
+import proj4 from "proj4"
 import { PlacesAPI } from './api/placesAPI'
 
 const SearchContainer = styled('div')(({ theme }) => ({
@@ -53,8 +54,16 @@ const testData = [
   { label: 'Berwick upon Tweed', location: [-2.00477, 55.768824] }
 ]
 
+//define projection switch
+proj4.defs("EPSG:27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs")
+function LngLatfromOS(northing, easting)  {
+  let coords = proj4("EPSG:27700", "EPSG:4326").forward([northing, easting], false);
+  return coords;
+}
+
 function Search (props) {
   const { setLocation } = props
+  const [optList, setOptList] = useState([])
   return (
     <SearchContainer>
       <SearchIconWrapper>
@@ -63,19 +72,20 @@ function Search (props) {
       <Autocomplete
         disablePortal
         id='combo-box-demo'
-        options={testData}
-        getOptionLabel={option => option.label}
-        style={{ width: 300 }}
+        options={optList}
+        filterOptions={(x) => x}
+        getOptionLabel={option => option.ADDRESS ? option.ADDRESS : ''}
+        style={{ width: 500 }}
         renderInput={params => {
           const { InputLabelProps, InputProps, ...rest } = params
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
         onChange={(event, newValue) => {
-          if (newValue.location) { setLocation(newValue.location) }
-          PlacesAPI.autofill(newValue.label).then((response) => {
-            console.log(response.results.map(result => result.DPA.ADDRESS))
-            /* only console-logging right now, but we can access
-            the data and setLocation to coords of top response */
+          if (newValue.X_COORDINATE) { setLocation(LngLatfromOS(newValue.X_COORDINATE, newValue.Y_COORDINATE)) }
+        }}
+        onInputChange={(event, newValue) => {
+          PlacesAPI.autofill(newValue).then((response) => {
+            setOptList(response)
           })
         }}
       />
