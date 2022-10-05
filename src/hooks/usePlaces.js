@@ -21,4 +21,4 @@ const usePlaces = (url) => {
   return { loading, places, searchPlaces }
 }
 
-export default usePlaces;
+export default usePlaces

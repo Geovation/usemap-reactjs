@@ -36,5 +36,3 @@ function MapUpMap (props) {
 }
 
 export default MapUpMap
-
-// calc function CSS (100%-60px-90px)

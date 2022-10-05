@@ -4,8 +4,8 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
 
-import proj4 from 'proj4';
-import usePlaces from './hooks/usePlaces';
+import proj4 from 'proj4'
+import usePlaces from './hooks/usePlaces'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
