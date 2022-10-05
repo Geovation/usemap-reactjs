@@ -1,11 +1,14 @@
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
-import { useState } from 'react'
-import proj4 from "proj4"
+
+import proj4 from 'proj4'
 import { PlacesAPI } from './api/placesAPI'
+import useOptList from './hooks/useOptList'
+import usePlaces from './hooks/usePlaces'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,16 +57,17 @@ const testData = [
   { label: 'Berwick upon Tweed', location: [-2.00477, 55.768824] }
 ]
 
-//define projection switch
-proj4.defs("EPSG:27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs")
-function LngLatfromOS(northing, easting)  {
-  let coords = proj4("EPSG:27700", "EPSG:4326").forward([northing, easting], false);
-  return coords;
+// define projection switch
+proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs')
+function LngLatfromOS (northing, easting) {
+  const coords = proj4('EPSG:27700', 'EPSG:4326').forward([northing, easting], false)
+  return coords
 }
 
 function Search (props) {
   const { setLocation } = props
-  const [optList, setOptList] = useState([])
+  const { loading, places, searchPlaces } = usePlaces([])
+
   return (
     <SearchContainer>
       <SearchIconWrapper>
@@ -72,7 +76,7 @@ function Search (props) {
       <Autocomplete
         disablePortal
         id='combo-box-demo'
-        options={optList}
+        options={places}
         filterOptions={(x) => x}
         getOptionLabel={option => option.ADDRESS ? option.ADDRESS : ''}
         style={{ width: 500 }}
@@ -84,9 +88,7 @@ function Search (props) {
           if (newValue.X_COORDINATE) { setLocation(LngLatfromOS(newValue.X_COORDINATE, newValue.Y_COORDINATE)) }
         }}
         onInputChange={(event, newValue) => {
-          PlacesAPI.autofill(newValue).then((response) => {
-            setOptList(response)
-          })
+          searchPlaces(newValue)
         }}
       />
     </SearchContainer>
