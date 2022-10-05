@@ -1,14 +1,11 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
 
-import proj4 from 'proj4'
-import { PlacesAPI } from './api/placesAPI'
-import useOptList from './hooks/useOptList'
-import usePlaces from './hooks/usePlaces'
+import proj4 from 'proj4';
+import usePlaces from './hooks/usePlaces';
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -49,13 +46,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     }
   }
 }))
-
-const testData = [
-  { label: 'Ordnance Survey', location: [-1.471061, 50.9382] },
-  { label: 'Bradford on Avon', location: [-2.249391, 51.347659] },
-  { label: 'Geovation', location: [-0.099754, 51.52435] },
-  { label: 'Berwick upon Tweed', location: [-2.00477, 55.768824] }
-]
 
 // define projection switch
 proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs')
