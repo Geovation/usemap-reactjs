@@ -30,12 +30,12 @@ export function toLatLng (coordinates, decimals = 7) {
 
 export function _checkBounds (coordinates) {
   let isValid = true
-  if (coordinates.hasOwnProperty('ea') && coordinates.hasOwnProperty('no')) {
+  if (Object.prototype.hasOwnProperty.call(coordinates, 'ea') && Object.prototype.hasOwnProperty.call(coordinates, 'no')) {
     if ((coordinates.ea < _maxBounds.projected[0][0] || coordinates.ea > _maxBounds.projected[1][0]) ||
             (coordinates.no < _maxBounds.projected[0][1] || coordinates.no > _maxBounds.projected[1][1])) {
       isValid = false
     }
-  } else if (coordinates.hasOwnProperty('lat') && coordinates.hasOwnProperty('lng')) {
+  } else if (Object.prototype.hasOwnProperty.call(coordinates, 'lat') && Object.prototype.hasOwnProperty.call(coordinates, 'lng')) {
     if ((coordinates.lng < _maxBounds.geographic[0][0] || coordinates.lng > _maxBounds.geographic[1][0]) ||
             (coordinates.lat < _maxBounds.geographic[0][1] || coordinates.lat > _maxBounds.geographic[1][1])) {
       isValid = false
