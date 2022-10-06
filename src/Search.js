@@ -3,8 +3,7 @@ import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
-
-import proj4 from 'proj4'
+import { toLatLng } from './utils/utils'
 import usePlaces from './hooks/usePlaces'
 
 const SearchContainer = styled('div')(({ theme }) => ({
@@ -47,13 +46,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }))
 
-// define projection switch
-proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs')
-function LngLatfromOS (northing, easting) {
-  const coords = proj4('EPSG:27700', 'EPSG:4326').forward([northing, easting], false)
-  return coords
-}
-
 function Search (props) {
   const { setLocation } = props
   const { loading, places, searchPlaces } = usePlaces([])
@@ -75,7 +67,10 @@ function Search (props) {
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
         onChange={(event, newValue) => {
-          if (newValue.X_COORDINATE) { setLocation(LngLatfromOS(newValue.X_COORDINATE, newValue.Y_COORDINATE)) }
+          if (newValue.X_COORDINATE) {
+            const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
+            setLocation([latlng.lng, latlng.lat])
+          }
         }}
         onInputChange={(event, newValue) => {
           searchPlaces(newValue)
