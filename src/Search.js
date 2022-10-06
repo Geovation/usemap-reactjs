@@ -67,7 +67,7 @@ function Search (props) {
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
         onChange={(event, newValue) => {
-          if (newValue.X_COORDINATE) {
+          if (newValue.X_COORDINATE && !loading) {
             const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
             setLocation([latlng.lng, latlng.lat])
           }

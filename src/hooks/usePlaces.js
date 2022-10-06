@@ -1,7 +1,7 @@
 import { PlacesAPI } from '../api/placesAPI'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-const usePlaces = (url) => {
+const usePlaces = () => {
   const [loading, setLoading] = useState(true)
   const [places, setPlaces] = useState([])
 
@@ -14,9 +14,6 @@ const usePlaces = (url) => {
         setPlaces(response)
       })
   }
-  useEffect(() => {
-    searchPlaces(url)
-  }, [])
 
   return { loading, places, searchPlaces }
 }
