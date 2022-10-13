@@ -7,7 +7,7 @@ const usePlaces = () => {
 
   const searchPlaces = (search) => {
     PlacesAPI.autofill(search).then((response) => {
-      return response
+    return response
     })
       .then((response) => {
         setLoading(false)

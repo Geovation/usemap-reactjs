@@ -16,12 +16,14 @@ import Search from './Search'
 import Header from './Header'
 import Footer from './Footer'
 
+
 import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 function App () {
   const [location, setLocation] = useState([-1.471061, 50.9382])
-  const [styleVal, setStyleVal] = useState('positron')
+  const [styleVal, setStyleVal] = useState('Light')
+  const [showPopup, setShowPopup] = useState(true)
 
   function changeStyle (name) {
     setStyleVal(name)
@@ -32,23 +34,23 @@ function App () {
       <CssBaseline />
       <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
-          <Search setLocation={setLocation} />
+          <Search setLocation={setLocation} setShowPopup={setShowPopup}/>
           <Box variant='h6' component='div' sx={{ flexGrow: 1 }} />
           <ToggleButtonGroup
             orientation='horizontal'
             value='val'
             exclusive
           >
-            <ToggleButton onClick={() => changeStyle('dark-matter')} value='dark-matter' aria-label='dark-matter'>
+            <ToggleButton onClick={() => changeStyle('Dark')} value='dark-matter' aria-label='dark-matter'>
               <DarkModeIcon />
             </ToggleButton>
-            <ToggleButton onClick={() => changeStyle('positron')} value='positron' aria-label='positron'>
+            <ToggleButton onClick={() => changeStyle('Light')} value='positron' aria-label='positron'>
               <WbSunnyIcon />
             </ToggleButton>
           </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
-      <MapUpMap location={location} styleVal={styleVal} />
+      <MapUpMap location={location} styleVal={styleVal} showPopup={showPopup}/>
       <Footer />
     </>
   )

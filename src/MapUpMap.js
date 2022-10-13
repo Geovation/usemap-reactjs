@@ -1,18 +1,24 @@
-import React, { useEffect, useRef } from 'react'
-import Map from 'react-map-gl'
+import axios from 'axios'
+import React, { useEffect, useRef, useState } from 'react'
+import Map, { Popup } from 'react-map-gl'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, styleVal } = props
+  const { location, styleVal, showPopup, setShowPopup} = props
+  const [style, setStyle] = useState({})
   const mapRef = useRef()
 
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
     }
-  }, [location])
+    axios.get(`https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_API_KEY}`)
+    .then(function (response) {
+      setStyle(response.data)
+    });
+  }, [location, styleVal])
 
   return (
     <Map
@@ -30,8 +36,22 @@ function MapUpMap (props) {
         width: '100vw',
         height: 'calc(100% - 120px)'
       }}
-      mapStyle={`https://basemaps.cartocdn.com/gl/${styleVal}-gl-style/style.json`}
-    />
+      mapStyle={style}
+      transformRequest={
+        url => {
+          return {
+              url: url + '&srs=3857' //transforms tile data, not style
+          }
+        }
+      }
+    >
+      {showPopup && (
+      <Popup longitude={location[0]} latitude={location[1]}
+        anchor="bottom"
+        onClose={() => setShowPopup(false)}>
+        You are here
+      </Popup>)}
+      </Map>
   )
 }
 
