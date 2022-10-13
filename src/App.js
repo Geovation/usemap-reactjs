@@ -23,7 +23,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 function App () {
   const [location, setLocation] = useState([-1.471061, 50.9382])
   const [styleVal, setStyleVal] = useState('Light')
-  const [showPopup, setShowPopup] = useState(true)
+  const [showPopup, setShowPopup] = useState(false)
 
   function changeStyle (name) {
     setStyleVal(name)
@@ -50,7 +50,7 @@ function App () {
           </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
-      <MapUpMap location={location} styleVal={styleVal} showPopup={showPopup}/>
+      <MapUpMap location={location} setLocation={setLocation} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup}/>
       <Footer />
     </>
   )

@@ -84,6 +84,10 @@ function Search (props) {
             // .then(response => {
             //   console.log(response.data);
             // });
+            axios.get(`https://api.os.uk/maps/vector/v1/vts?srs=3857&key=${process.env.REACT_APP_API_KEY}`)
+            .then(response => {
+              console.log(response.data);
+            }) 
           }
         }}
         onInputChange={(event, newValue) => {
@@ -97,3 +101,4 @@ function Search (props) {
 }
 
 export default Search
+

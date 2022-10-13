@@ -6,9 +6,19 @@ import Map, { Popup } from 'react-map-gl'
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, styleVal, showPopup, setShowPopup} = props
+  const { location, setLocation, styleVal, showPopup, setShowPopup} = props
   const [style, setStyle] = useState({})
+  const [feature, setFeature] = useState({})
   const mapRef = useRef()
+
+  const onMapClick = () =>
+    mapRef.current.on('click', (e) => {
+      let fs = mapRef.current.queryRenderedFeatures(e.point);
+      if(fs.length > 0){setFeature(fs[0])}
+      setShowPopup(false);
+      setLocation([e.lngLat.lng, e.lngLat.lat])
+      setShowPopup(true);
+    });
 
   useEffect(() => {
     if (mapRef.current) {
@@ -18,11 +28,12 @@ function MapUpMap (props) {
     .then(function (response) {
       setStyle(response.data)
     });
-  }, [location, styleVal])
+  }, [location])
 
   return (
     <Map
       ref={mapRef}
+      onClick={onMapClick}
       initialViewState={{
         latitude: location[1],
         longitude: location[0],
@@ -45,13 +56,13 @@ function MapUpMap (props) {
         }
       }
     >
-      {showPopup && (
-      <Popup longitude={location[0]} latitude={location[1]}
+      { showPopup && <Popup longitude={location[0]} latitude={location[1]}
+        closeOnClick={false}
         anchor="bottom"
-        onClose={() => setShowPopup(false)}>
-        You are here
-      </Popup>)}
-      </Map>
+      >
+        {`${feature.layer.id} | ${feature.properties.TOID ? feature.properties.TOID : ''}`}
+      </Popup> }
+    </Map>
   )
 }
 
