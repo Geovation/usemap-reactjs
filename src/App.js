@@ -16,7 +16,6 @@ import Search from './Search'
 import Header from './Header'
 import Footer from './Footer'
 
-
 import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -34,7 +33,7 @@ function App () {
       <CssBaseline />
       <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
-          <Search setLocation={setLocation} setShowPopup={setShowPopup}/>
+          <Search setLocation={setLocation} setShowPopup={setShowPopup} />
           <Box variant='h6' component='div' sx={{ flexGrow: 1 }} />
           <ToggleButtonGroup
             orientation='horizontal'
@@ -50,7 +49,7 @@ function App () {
           </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
-      <MapUpMap location={location} setLocation={setLocation} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup}/>
+      <MapUpMap location={location} setLocation={setLocation} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup} />
       <Footer />
     </>
   )

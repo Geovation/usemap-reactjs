@@ -2,12 +2,13 @@ import { PlacesAPI } from '../api/placesAPI'
 import { useState } from 'react'
 
 const usePlaces = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [places, setPlaces] = useState([])
 
   const searchPlaces = (search) => {
     PlacesAPI.autofill(search).then((response) => {
-    return response
+      setLoading(true)
+      return response
     })
       .then((response) => {
         setLoading(false)

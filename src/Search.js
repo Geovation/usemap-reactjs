@@ -6,7 +6,6 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { toLatLng } from './utils/utils'
 import usePlaces from './hooks/usePlaces'
 import axios from 'axios'
-import { useState } from 'react';
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -49,9 +48,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation, setShowPopup } = props
+  const { setLocation } = props
   const { loading, places, searchPlaces } = usePlaces([])
-  const { toid, setToid } = useState('');
 
   return (
     <SearchContainer>
@@ -74,24 +72,18 @@ function Search (props) {
             const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
             setLocation([latlng.lng, latlng.lat])
             axios.get(`https://api.os.uk/search/links/v1/identifierTypes/UPRN/${newValue.UPRN}?key=${process.env.REACT_APP_API_KEY}`)
-            .then(response => {
-              let ids = response.data.correlations;
-              let toid = ids.find(c => c.correlatedFeatureType === 'TopographicArea');
-              console.log(toid);
-            }) 
-            // axios.get(`
-            // https://api.os.uk/features/v1/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=Topography_TopographicPoint&count=20&key=${process.env.REACT_APP_API_KEY}`)
-            // .then(response => {
-            //   console.log(response.data);
-            // });
+              .then(response => {
+                // const ids = response.data.correlations
+                // const toid = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
+              })
             axios.get(`https://api.os.uk/maps/vector/v1/vts?srs=3857&key=${process.env.REACT_APP_API_KEY}`)
-            .then(response => {
-              console.log(response.data);
-            }) 
+              .then(response => {
+                console.log(response.data)
+              })
           }
         }}
         onInputChange={(event, newValue) => {
-          if(newValue.length > 0) {
+          if (newValue.length > 0) {
             searchPlaces(newValue)
           }
         }}
@@ -101,4 +93,3 @@ function Search (props) {
 }
 
 export default Search
-
