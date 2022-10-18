@@ -3,6 +3,8 @@ import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
+import { toLatLng } from './utils/utils'
+import usePlaces from './hooks/usePlaces'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -44,15 +46,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }))
 
-const testData = [
-  { label: 'Ordnance Survey', location: [-1.471061, 50.9382] },
-  { label: 'Bradford on Avon', location: [-2.249391, 51.347659] },
-  { label: 'Geovation', location: [-0.099754, 51.52435] },
-  { label: 'Berwick-upon-Tweed', location: [-2.00477, 55.768824] }
-]
-
 function Search (props) {
   const { setLocation } = props
+  const { loading, places, searchPlaces } = usePlaces([])
+
   return (
     <SearchContainer>
       <SearchIconWrapper>
@@ -61,14 +58,23 @@ function Search (props) {
       <Autocomplete
         disablePortal
         id='combo-box-demo'
-        options={testData}
-        getOptionLabel={option => option.label}
-        style={{ width: 300 }}
+        options={places}
+        filterOptions={(x) => x}
+        getOptionLabel={option => option.ADDRESS ? option.ADDRESS : ''}
+        style={{ width: 500 }}
         renderInput={params => {
           const { InputLabelProps, InputProps, ...rest } = params
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
-        onChange={(event, newValue) => { if (newValue.location) { setLocation(newValue.location) } }}
+        onChange={(event, newValue) => {
+          if (newValue.X_COORDINATE && !loading) {
+            const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
+            setLocation([latlng.lng, latlng.lat])
+          }
+        }}
+        onInputChange={(event, newValue) => {
+          searchPlaces(newValue)
+        }}
       />
     </SearchContainer>
   )
