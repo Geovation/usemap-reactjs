@@ -1,40 +1,47 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
-import Map, { Popup } from 'react-map-gl'
-import useFeatures from './hooks/useFeatures'
+import Map, { Layer, Popup, Source } from 'react-map-gl'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, setLocation, showPopup, setShowPopup } = props
+  const { location, setLocation, feature, getFeature, showPopup, setShowPopup } = props
   const [style, setStyle] = useState({})
-  const { l, feature, getFeature } = useFeatures({})
   const mapRef = useRef()
 
   const onMapClick = () =>
     mapRef.current.on('click', (e) => {
+      setShowPopup(false)
       const fs = mapRef.current.queryRenderedFeatures(e.point)
       if (fs.length > 0) {
         const building = fs.find(x => x.layer.id.includes('Building/'))
-        if (building && !l) {
+        if (building) {
           getFeature(building.properties.TOID)
         }
       }
-      setShowPopup(false)
       setLocation([e.lngLat.lng, e.lngLat.lat])
       setShowPopup(true)
     })
 
-  useEffect(() => {
-    if (mapRef.current) {
-      mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
-      axios.get(`https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_API_KEY}`)
-        .then(function (response) {
-          setStyle(response.data)
-        })
+    useEffect(() => {
+      if (mapRef.current) {
+        mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
+      }
+    }, [location])
+    
+
+  const toidLayer = {
+    id: 'topographic-areas',
+    type: 'fill',
+    layout: {
+      visibility: 'visible'
+    },
+    paint: {
+      'fill-color': '#3388ff',
+      'fill-opacity': 0.4
     }
-  }, [location])
+  }
 
   return (
     <Map
@@ -53,7 +60,7 @@ function MapUpMap (props) {
         width: '100vw',
         height: 'calc(100% - 120px)'
       }}
-      mapStyle={style}
+      mapStyle={`https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_API_KEY}`}
       transformRequest={
         url => {
           return {
@@ -62,13 +69,23 @@ function MapUpMap (props) {
         }
       }
     >
+      <Source id='topographic-areas' type='geojson' data={feature}>
+        <Layer {...toidLayer} />
+      </Source>
       {showPopup &&
         <Popup
           longitude={location[0]} latitude={location[1]}
           closeOnClick={false}
           anchor='bottom'
         >
-          {feature ? feature.geometry.coordinates[0] : 'no building here'}
+          <table style={{ textAlign: 'center' }}>
+            <tbody>
+            <tr><td>TOID</td><td>{feature.properties?.TOID ? feature.properties.TOID : ''}</td></tr>
+            <tr><td>Group</td><td>{feature.properties?.DescriptiveGroup ? feature.properties.DescriptiveGroup : ''}</td></tr>
+            <tr><td>Theme</td><td>{feature.properties?.theme ? feature.properties.theme : ''}</td></tr>
+            <tr><td>Area (sq m)</td><td>{feature.properties?.calculatedAreaValue ? feature.properties.calculatedAreaValue : ''}</td></tr>
+            </tbody>
+          </table>
         </Popup>}
     </Map>
   )

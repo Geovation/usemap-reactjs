@@ -9,7 +9,7 @@ export const FeaturesAPI = {
       url: `/features/${input}`,
       method: 'GET',
       // retrieving the signal value by using the property name
-      signal: cancel ? cancelApiObject[this.autofill.name].handleRequestCancellation().signal : undefined
+      signal: cancel ? cancelApiObject[this.get_feature.name].handleRequestCancellation().signal : undefined
     })
 
     // returning the first feature from API

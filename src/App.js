@@ -16,11 +16,14 @@ import Search from './Search'
 import Header from './Header'
 import Footer from './Footer'
 
+import useFeatures from './hooks/useFeatures'
+
 import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 function App () {
   const [location, setLocation] = useState([-1.471061, 50.9382])
+  const { feature, getFeature } = useFeatures()
   const [styleVal, setStyleVal] = useState('Light')
   const [showPopup, setShowPopup] = useState(false)
 
@@ -33,7 +36,7 @@ function App () {
       <CssBaseline />
       <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
-          <Search setLocation={setLocation} setShowPopup={setShowPopup} />
+          <Search setLocation={setLocation} setShowPopup={setShowPopup} feature={feature} getFeature={getFeature} />
           <Box variant='h6' component='div' sx={{ flexGrow: 1 }} />
           <ToggleButtonGroup
             orientation='horizontal'
@@ -49,7 +52,7 @@ function App () {
           </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
-      <MapUpMap location={location} setLocation={setLocation} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup} />
+      <MapUpMap location={location} setLocation={setLocation} feature={feature} getFeature={getFeature} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup} />
       <Footer />
     </>
   )
