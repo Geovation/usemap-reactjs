@@ -4,6 +4,7 @@ import Map, { Layer, Popup, Source } from 'react-map-gl'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
+import { toBNG } from './utils/utils'
 
 function MapUpMap (props) {
   const { location, setLocation, feature, getFeature, showPopup, setShowPopup } = props
@@ -18,16 +19,23 @@ function MapUpMap (props) {
         const building = fs.find(x => x.layer.id.includes('Building/'))
         if (building) {
           getFeature(building.properties.TOID)
+          setLocation([e.lngLat.lng, e.lngLat.lat])
+          setShowPopup(true)
         }
       }
-      setLocation([e.lngLat.lng, e.lngLat.lat])
-      setShowPopup(true)
+
     })
 
     useEffect(() => {
       if (mapRef.current) {
         mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
       }
+      let coords = toBNG({lng: location[0], lat: location[1]}, 0)
+      axios.get(`https://api.os.uk/search/places/v1/nearest?point=${coords.ea},${coords.no}&key=${process.env.REACT_APP_OS_API_KEY}`).then(
+        (response => {
+          console.log(response.data.results[0].DPA)
+        })
+      )
     }, [location])
     
 
@@ -39,7 +47,7 @@ function MapUpMap (props) {
     },
     paint: {
       'fill-color': '#3388ff',
-      'fill-opacity': 0.4
+      'fill-opacity': 0.6
     }
   }
 
@@ -69,21 +77,25 @@ function MapUpMap (props) {
         }
       }
     >
-      <Source id='topographic-areas' type='geojson' data={feature}>
+      
+      <Source id='topographic-source' type='geojson' data={feature}>
         <Layer {...toidLayer} />
       </Source>
       {showPopup &&
         <Popup
+          style={{fontFamily: 'Trebuchet MS, Arial, sans-serif'}}
           longitude={location[0]} latitude={location[1]}
           closeOnClick={false}
           anchor='bottom'
         >
           <table style={{ textAlign: 'center' }}>
             <tbody>
-            <tr><td>TOID</td><td>{feature.properties?.TOID ? feature.properties.TOID : ''}</td></tr>
-            <tr><td>Group</td><td>{feature.properties?.DescriptiveGroup ? feature.properties.DescriptiveGroup : ''}</td></tr>
-            <tr><td>Theme</td><td>{feature.properties?.theme ? feature.properties.theme : ''}</td></tr>
-            <tr><td>Area (sq m)</td><td>{feature.properties?.calculatedAreaValue ? feature.properties.calculatedAreaValue : ''}</td></tr>
+              {(() => {
+                let arr = ['TOID', 'DescriptiveGroup', 'ChangeDate', 'CalculatedAreaValue', 'ChangeHistory']
+                let tbl = arr.map(x => <tr key={x + 'row'}><td key={x + 'name'}>{x}</td><td key={x + 'value'}>{feature.properties && feature.properties[x] ? feature.properties[x] : ''}</td></tr>)
+                console.log(feature.properties ? feature.properties.ChangeHistory  : '')
+                return tbl
+              })()}
             </tbody>
           </table>
         </Popup>}
