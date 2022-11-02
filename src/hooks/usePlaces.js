@@ -16,7 +16,18 @@ const usePlaces = () => {
       })
   }
 
-  return { loading, places, searchPlaces }
+  const getBuildingFromTOID = (search) => {
+    PlacesAPI.toidbuilding(search).then((response) => {
+      setLoading(true)
+      return response
+    })
+      .then((response) => {
+        setLoading(false)
+        setPlaces(response)
+      })
+  }
+
+  return { loading, places, searchPlaces, getBuildingFromTOID }
 }
 
 export default usePlaces

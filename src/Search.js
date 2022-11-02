@@ -48,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation, setShowPopup, getFeature } = props
+  const { setLocation, setShowPopup, getFeature, getBuildingFromTOID } = props
   const { loading, places, searchPlaces } = usePlaces([])
 
   return (
@@ -77,6 +77,7 @@ function Search (props) {
                 const toid = id.correlatedIdentifiers[0].identifier
                 setShowPopup(false)
                 getFeature(toid)
+                getBuildingFromTOID(toid)
                 setLocation([latlng.lng, latlng.lat])
                 setShowPopup(true)
               })

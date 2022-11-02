@@ -7,7 +7,7 @@ import maplibregl from '!maplibre-gl'
 import { toBNG } from './utils/utils'
 
 function MapUpMap (props) {
-  const { location, setLocation, feature, getFeature, showPopup, setShowPopup } = props
+  const { location, setLocation, feature, getFeature, places, getBuildingFromTOID, showPopup, setShowPopup } = props
   const [style, setStyle] = useState({})
   const mapRef = useRef()
 
@@ -19,6 +19,7 @@ function MapUpMap (props) {
         const building = fs.find(x => x.layer.id.includes('Building/'))
         if (building) {
           getFeature(building.properties.TOID)
+          getBuildingFromTOID(building.properties.TOID)
           setLocation([e.lngLat.lng, e.lngLat.lat])
           setShowPopup(true)
         }
@@ -30,12 +31,12 @@ function MapUpMap (props) {
       if (mapRef.current) {
         mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
       }
-      let coords = toBNG({lng: location[0], lat: location[1]}, 0)
-      axios.get(`https://api.os.uk/search/places/v1/nearest?point=${coords.ea},${coords.no}&key=${process.env.REACT_APP_OS_API_KEY}`).then(
-        (response => {
-          console.log(response.data.results[0].DPA)
-        })
-      )
+      // let coords = toBNG({lng: location[0], lat: location[1]}, 0)
+      // axios.get(`https://api.os.uk/search/places/v1/nearest?point=${coords.ea},${coords.no}&key=${process.env.REACT_APP_OS_API_KEY}`).then(
+      //   (response => {
+      //     response == undefined ? console.log(response.data.results[0].DPA) : 2
+      //   })
+      // )
     }, [location])
     
 
@@ -88,13 +89,15 @@ function MapUpMap (props) {
           closeOnClick={false}
           anchor='bottom'
         >
-          <table style={{ textAlign: 'center' }}>
+          <table style={{ textAlign: 'center', width: '40%'}}>
             <tbody>
               {(() => {
-                let arr = ['TOID', 'DescriptiveGroup', 'ChangeDate', 'CalculatedAreaValue', 'ChangeHistory']
-                let tbl = arr.map(x => <tr key={x + 'row'}><td key={x + 'name'}>{x}</td><td key={x + 'value'}>{feature.properties && feature.properties[x] ? feature.properties[x] : ''}</td></tr>)
-                console.log(feature.properties ? feature.properties.ChangeHistory  : '')
-                return tbl
+                let arr = ['CalculatedAreaValue'] //for info from TOID call
+                let tbl1 = arr.map(x => <tr key={x + 'row'}><td key={x + 'name'}>{x}</td><td key={x + 'value'}>{feature.properties && feature.properties[x] ? feature.properties[x] : ''}</td></tr>)
+                let tbl2 = Object.entries(places[0]) //for info from UPRN call
+                .slice(12, 17)
+                .map(x => <tr key={x[0] + 'row'}><td key={x[0] + 'name'}>{x[0]}</td><td key={x[0] + 'value'}>{x[1]}</td></tr>)
+                return places[0] ? tbl1.concat(tbl2) : 'No building here'
               })()}
             </tbody>
           </table>
