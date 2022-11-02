@@ -94,10 +94,12 @@ function MapUpMap (props) {
               {(() => {
                 let arr = ['CalculatedAreaValue'] //for info from TOID call
                 let tbl1 = arr.map(x => <tr key={x + 'row'}><td key={x + 'name'}>{x}</td><td key={x + 'value'}>{feature.properties && feature.properties[x] ? feature.properties[x] : ''}</td></tr>)
-                let tbl2 = Object.entries(places[0]) //for info from UPRN call
-                .slice(12, 17)
-                .map(x => <tr key={x[0] + 'row'}><td key={x[0] + 'name'}>{x[0]}</td><td key={x[0] + 'value'}>{x[1]}</td></tr>)
-                return places[0] ? tbl1.concat(tbl2) : 'No building here'
+                let arr2 = ['ADDRESS', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION']
+                let tbl2 = //for info from UPRN call
+                arr2.map(x =>
+                  <tr key={x + 'row'}><td key={x + 'name'}>{x}</td><td key={x + 'value'}>{places[0] ? places[0][x] : ''}</td></tr>
+                )
+                  return places[0] ? tbl1.concat(tbl2) : 'No building here'
               })()}
             </tbody>
           </table>
