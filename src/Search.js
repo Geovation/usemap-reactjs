@@ -48,8 +48,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation, setShowPopup, getFeature, getBuildingFromTOID } = props
-  const { loading, places, searchPlaces } = usePlaces([])
+  const { setLocation, setShowPopup, getFeature } = props
+  const { loading, places, searchPlaces, getBuildingFromTOID } = usePlaces([])
 
   return (
     <SearchContainer>
@@ -70,12 +70,12 @@ function Search (props) {
         onChange={(event, newValue) => {
           if (newValue.X_COORDINATE && !loading) {
             const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
-            axios.get(`https://api.os.uk/search/links/v1/identifierTypes/UPRN/${newValue.UPRN}?key=${process.env.REACT_APP_API_KEY}`)
+            setShowPopup(false)
+            axios.get(`https://api.os.uk/search/links/v1/identifierTypes/UPRN/${newValue.UPRN}?key=${process.env.REACT_APP_OS_API_KEY}`)
               .then(response => {
                 const ids = response.data.correlations
                 const id = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
                 const toid = id.correlatedIdentifiers[0].identifier
-                setShowPopup(false)
                 getFeature(toid)
                 getBuildingFromTOID(toid)
                 setLocation([latlng.lng, latlng.lat])
