@@ -120,7 +120,8 @@ function MapUpMap (props) {
             backgroundSize: '150px 200px'
           }}
           target='_blank' rel='noreferrer'
-        />
+        >t
+        </a>
       </div>
     </>
   )
