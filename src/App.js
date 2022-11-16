@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -39,8 +39,10 @@ function App () {
       <CssBaseline />
       <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
-          <Search setLocation={setLocation} setShowPopup={setShowPopup} feature={feature} loading={loading}
-          places={places} searchPlaces={searchPlaces} getFeature={getFeature} getBuildingFromTOID={getBuildingFromTOID}/>
+          <Search
+            setLocation={setLocation} setShowPopup={setShowPopup} feature={feature} loading={loading}
+            places={places} searchPlaces={searchPlaces} getFeature={getFeature} getBuildingFromTOID={getBuildingFromTOID}
+          />
           <Box variant='h6' component='div' sx={{ flexGrow: 1 }} />
           <ToggleButtonGroup
             orientation='horizontal'
@@ -56,8 +58,10 @@ function App () {
           </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
-      <MapUpMap location={location} setLocation={setLocation} feature={feature} getFeature={getFeature} places={places}
-      getBuildingFromTOID={getBuildingFromTOID} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup} />
+      <MapUpMap
+        location={location} setLocation={setLocation} feature={feature} getFeature={getFeature} places={places}
+        getBuildingFromTOID={getBuildingFromTOID} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup}
+      />
       <Footer />
     </>
   )

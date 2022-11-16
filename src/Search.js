@@ -4,7 +4,6 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
 import { toLatLng } from './utils/utils'
-import usePlaces from './hooks/usePlaces'
 import axios from 'axios'
 
 const SearchContainer = styled('div')(({ theme }) => ({
@@ -48,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID} = props
+  const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID } = props
 
   return (
     <SearchContainer>
@@ -84,7 +83,7 @@ function Search (props) {
         }}
         onInputChange={(event, newValue) => {
           if (newValue.length > 0) {
-            searchPlaces(newValue) 
+            searchPlaces(newValue)
           }
         }}
       />
