@@ -14,7 +14,6 @@ export const PlacesAPI = {
 
     // returning the data from API
     return response.data
-
   },
   toidbuilding: async function (input, cancel = false) {
     const response = await api.request({
