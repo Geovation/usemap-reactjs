@@ -110,7 +110,7 @@ function MapUpMap (props) {
             
                 let x = 'CalculatedAreaValue'
                 let tbl1 = //for info from TOID call
-                  <tr key={x + 'row'}><td key={x + 'name'}>area (sq m)</td><td key={x + 'value'}>{feature.properties && feature.properties[x] ? parseInt(feature.properties[x]) : ''}</td></tr>
+                  <tr key={x + 'row'}><td key={x + 'name'}>area (sq m)</td><td key={x + 'value'}>{feature && feature.properties && feature.properties[x] ? parseInt(feature.properties[x]) : ''}</td></tr>
              
                 let arr2 = ['UPRN', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'] //for info from UPRN call
                 let tbl2 = arr2.map(x =>
