@@ -28,7 +28,6 @@ export function toLatLng (coordinates, decimals = 7) {
   return { lat, lng }
 }
 
-
 export function toBNG (coordinates, decimals = 7) {
 
   proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs')
@@ -39,7 +38,6 @@ export function toBNG (coordinates, decimals = 7) {
 
   return { ea, no }
 }
-
 
 export function _checkBounds (coordinates) {
   let isValid = true
