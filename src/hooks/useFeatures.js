@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const useFeatures = () => {
   const [loading, setLoading] = useState(false)
-  const [feature, setFeature] = useState({})
+  const [feature, setFeature] = useState(null)
 
   const getFeature = (toid) => {
     FeaturesAPI.get_feature(toid).then((response) => {

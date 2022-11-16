@@ -1,5 +1,4 @@
-import axios from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Map, { Layer, Popup, Source } from 'react-map-gl'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -23,28 +22,35 @@ function MapUpMap (props) {
         }
         else //no building found; no location update hence no building/feature update
         {
-          setShowPopup(true)
+          //setShowPopup(true)
         }
       }
     }
 
-    //useEffect section
-    useEffect(() => {
-      if (mapRef.current) {
-        mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
-      }
-    }, [location])
-    
-    useEffect(() => {
-      console.log(feature)
-    }, [feature])
+  //useEffect section
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
+    }
+  }, [location])
+
+  const geo = {
+    type: 'Feature', 
+    geometry: {
+      type: 'MultiPolygon', 
+      coordinates: [[51, -1], [52, -2], [52, 0]]
+    },
+    properties: {
+      name: 'polygon1'
+    }
+  };
+
+      
 
   const toidLayer = {
-    id: 'topographic-areas',
+    id: 'building-fill',
     type: 'fill',
-    layout: {
-      visibility: 'visible'
-    },
+    data: {feature},
     paint: {
       'fill-color': '#3388ff',
       'fill-opacity': 1
@@ -52,6 +58,11 @@ function MapUpMap (props) {
   }
 
 
+  useEffect(() => {
+    console.log(feature)
+  }, [feature])
+
+  
   return (
     <Map
       ref={mapRef}
@@ -79,8 +90,7 @@ function MapUpMap (props) {
         }
       }
     >
-      
-      <Source id='topographic-source' type='geojson' data={feature}>
+      <Source id='building-highlight' type='geojson' data={feature}>
         <Layer {...toidLayer} />
       </Source>
       {showPopup &&
@@ -88,7 +98,7 @@ function MapUpMap (props) {
           style={{fontFamily: 'Trebuchet MS, Arial, sans-serif'}}
           longitude={location[0]} latitude={location[1]}
           closeOnClick={false}
-          closeButton={false}
+          interactiveLayerIds={['topographic-areas']}
           anchor='bottom'
         >
           <table style={{ width: '100%', position:'relative', tableLayout: 'fixed', textAlign: 'center'}}>
@@ -107,12 +117,11 @@ function MapUpMap (props) {
                   <tr key={x + 'row'}><td style={{wordWrap: 'break-word'}} key={x + 'name'}>{x.replaceAll('_', ' ').toLowerCase()}</td><td style={{wordWrap: 'break-word'}} key={x + 'value'}>{places[0] && places[0][x] ? places[0][x] : 'none given'}</td></tr>
                 )
 
-                return places[0] ? addr.concat(tbl1, tbl2) : 'No building here'
-
+                return places[0] ? addr.concat(tbl1, tbl2) : 'Building information not found'
               })()}
             </tbody>
           </table>
-        </Popup>}
+        </Popup>}      
     </Map>
   )
 }

@@ -48,8 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation, setShowPopup, getFeature } = props
-  const { loading, places, searchPlaces, getBuildingFromTOID } = usePlaces([])
+  const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID} = props
 
   return (
     <SearchContainer>
@@ -81,12 +80,11 @@ function Search (props) {
                 setLocation([latlng.lng, latlng.lat])
                 setShowPopup(true)
               })
-              
           }
         }}
         onInputChange={(event, newValue) => {
           if (newValue.length > 0) {
-            searchPlaces(newValue)
+            searchPlaces(newValue) 
           }
         }}
       />
