@@ -47,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID } = props
+  const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID} = props
 
   return (
     <SearchContainer>
@@ -68,6 +68,7 @@ function Search (props) {
         onChange={(event, newValue) => {
           if (newValue.X_COORDINATE && !loading) {
             const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
+
             setShowPopup(false)
             axios.get(`https://api.os.uk/search/links/v1/identifierTypes/UPRN/${newValue.UPRN}?key=${process.env.REACT_APP_OS_API_KEY}`)
               .then(response => {
