@@ -32,20 +32,7 @@ function MapUpMap (props) {
     if (mapRef.current) {
       mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
     }
-  }, [location])
-
-  const geo = {
-    type: 'Feature', 
-    geometry: {
-      type: 'MultiPolygon', 
-      coordinates: [[51, -1], [52, -2], [52, 0]]
-    },
-    properties: {
-      name: 'polygon1'
-    }
-  };
-
-      
+  }, [location])      
 
   const toidLayer = {
     id: 'building-fill',
@@ -56,14 +43,9 @@ function MapUpMap (props) {
       'fill-opacity': 1
     }
   }
-
-
-  useEffect(() => {
-    console.log(feature)
-  }, [feature])
-
   
   return (
+    <>
     <Map
       ref={mapRef}
       onClick={onMapClick}
@@ -74,6 +56,7 @@ function MapUpMap (props) {
       }}
       minZoom={6}
       mapLib={maplibregl}
+      customAttribution={'Contains OS data &copy; Crown copyright and database rights 2022'}
       style={{
         position: 'fixed',
         left: 0,
@@ -121,8 +104,13 @@ function MapUpMap (props) {
               })()}
             </tbody>
           </table>
-        </Popup>}      
+        </Popup>
+        }      
     </Map>
+    <div id='map'>
+      <a href="https://www.ordnancesurvey.co.uk" class='os-logo' target="_blank">Mapbox</a>
+    </div>
+    </>
   )
 }
 

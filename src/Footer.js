@@ -5,6 +5,7 @@ const FooterContainer = styled('div')(({ theme }) => ({
   position: 'fixed',
   left: 0,
   bottom: 0,
+  zIndex: 21,
   color: 'white',
   display: 'flex',
   justifyContent: 'center',
