@@ -107,8 +107,24 @@ function MapUpMap (props) {
         </Popup>
         }      
     </Map>
-    <div id='map'>
-      <a href="https://www.ordnancesurvey.co.uk" class='os-logo' target="_blank">Mapbox</a>
+    <div style={{position: 'absolute', top: 'calc(100%-100px)', bottom: '60px',  zIndex: 2, width: '100%'}}>
+      <a href="https://www.ordnancesurvey.co.uk" 
+      style={{
+        position: 'absolute',
+        display: 'block',
+        height: '150px',
+        width: '200px',
+        left: '10px',
+        bottom: '10px',
+        textIndent: '-9999px',
+        zIndex: '99999',
+        overflow: 'hidden',
+        backgroundImage: 'url("https://raw.githubusercontent.com/OrdnanceSurvey/os-api-branding/4604a642bda5dc3c5e600f4cb095aa8a0934dc05/img/os-logo-maps.svg")',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: '10 0',
+        backgroundSize: '150px 200px'
+      }}
+      target="_blank"></a>
     </div>
     </>
   )
