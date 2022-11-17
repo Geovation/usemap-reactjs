@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import Map, { Layer, Popup, Source } from 'react-map-gl'
+import Map, { Layer, Source } from 'react-map-gl'
 import MapPopup from './MapPopup.js'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -40,10 +40,10 @@ function MapUpMap (props) {
   }
 
   const tableData = {
-    address : places[0] ? places[0].ADDRESS : 'no address given',
-    data : 
-    [[['area (sq m)', feature && feature.properties && feature.properties['CalculatedAreaValue'] ? parseInt(feature.properties['CalculatedAreaValue']) : '']].concat(
-    ['UPRN', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
+    address: places[0] ? places[0].ADDRESS : 'no address given',
+    data:
+    [[['area (sq m)', feature && feature.properties && feature.properties.CalculatedAreaValue ? parseInt(feature.properties.CalculatedAreaValue) : '']].concat(
+      ['UPRN', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
   }
 
   return (
@@ -75,12 +75,11 @@ function MapUpMap (props) {
         }
       }
       >
-      <Source id='building-highlight' type='geojson' data={feature}>
-        <Layer {...toidLayer} />
-      </Source>
-      {showPopup &&
-        <MapPopup tableData = {tableData} location={location} />
-      }
+        <Source id='building-highlight' type='geojson' data={feature}>
+          <Layer {...toidLayer} />
+        </Source>
+        {showPopup &&
+          <MapPopup tableData={tableData} location={location} />}
       </Map>
       <div style={{ position: 'absolute', top: 'calc(100%-120px)', bottom: '60px', zIndex: 2, width: '100%' }}>
         <a
