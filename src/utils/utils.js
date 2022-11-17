@@ -2,6 +2,9 @@ import proj4 from 'proj4'
 
 // All borrowed from the os-transform GitHub repository
 
+// define BNG using proj4 conventions
+proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs')
+
 const _maxBounds = {
   projected: [[0.0, 0.0], [699999.9, 1299999.9]],
   geographic: [[-8.74, 49.84], [1.96, 60.9]]
@@ -19,13 +22,21 @@ export function toLatLng (coordinates, decimals = 7) {
     return {}
   }
 
-  proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs')
   const point = proj4('EPSG:27700', 'EPSG:4326', [coordinates.ea, coordinates.no])
 
   const lng = Number(point[0].toFixed(decimals))
   const lat = Number(point[1].toFixed(decimals))
 
   return { lat, lng }
+}
+
+export function toBNG (coordinates, decimals = 7) {
+  const point = proj4('EPSG:4326', 'EPSG:27700', [coordinates.lng, coordinates.lat])
+
+  const ea = Number(point[0].toFixed(decimals))
+  const no = Number(point[1].toFixed(decimals))
+
+  return { ea, no }
 }
 
 export function _checkBounds (coordinates) {

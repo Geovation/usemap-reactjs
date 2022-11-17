@@ -4,7 +4,7 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
 import { toLatLng } from './utils/utils'
-import usePlaces from './hooks/usePlaces'
+import useLinkedIDs from './hooks/useLinkedIDs'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -47,8 +47,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation } = props
-  const { loading, places, searchPlaces } = usePlaces([])
+  const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID } = props
+  const { linkedIDs, getLinkedIDsFromUPRN } = useLinkedIDs()
 
   return (
     <SearchContainer>
@@ -69,11 +69,22 @@ function Search (props) {
         onChange={(event, newValue) => {
           if (newValue.X_COORDINATE && !loading) {
             const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
+
+            setShowPopup(false)
+            getLinkedIDsFromUPRN(newValue.UPRN)
+            const ids = linkedIDs.data.correlations
+            const id = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
+            const toid = id.correlatedIdentifiers[0].identifier
+            getFeature(toid)
+            getBuildingFromTOID(toid)
             setLocation([latlng.lng, latlng.lat])
+            setShowPopup(true)
           }
         }}
         onInputChange={(event, newValue) => {
-          searchPlaces(newValue)
+          if (newValue.length > 0) {
+            searchPlaces(newValue)
+          }
         }}
       />
     </SearchContainer>

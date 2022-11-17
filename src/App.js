@@ -16,39 +16,52 @@ import Search from './Search'
 import Header from './Header'
 import Footer from './Footer'
 
+import usePlaces from './hooks/usePlaces'
+import useFeatures from './hooks/useFeatures'
+
 import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 function App () {
   const [location, setLocation] = useState([-1.471061, 50.9382])
-  const [styleVal, setStyleVal] = useState('positron')
+  const { feature, getFeature } = useFeatures()
+  const { loading, places, searchPlaces, getBuildingFromTOID } = usePlaces([])
+  const [styleVal, setStyleVal] = useState('Light')
+  const [showPopup, setShowPopup] = useState(false)
 
   function changeStyle (name) {
     setStyleVal(name)
   }
+
   return (
     <>
       <Header />
       <CssBaseline />
       <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
-          <Search setLocation={setLocation} />
+          <Search
+            setLocation={setLocation} setShowPopup={setShowPopup} feature={feature} loading={loading}
+            places={places} searchPlaces={searchPlaces} getFeature={getFeature} getBuildingFromTOID={getBuildingFromTOID}
+          />
           <Box variant='h6' component='div' sx={{ flexGrow: 1 }} />
           <ToggleButtonGroup
             orientation='horizontal'
             value='val'
             exclusive
           >
-            <ToggleButton onClick={() => changeStyle('dark-matter')} value='dark-matter' aria-label='dark-matter'>
+            <ToggleButton onClick={() => changeStyle('Dark')} value='Dark' aria-label='Dark'>
               <DarkModeIcon />
             </ToggleButton>
-            <ToggleButton onClick={() => changeStyle('positron')} value='positron' aria-label='positron'>
+            <ToggleButton onClick={() => changeStyle('Light')} value='Light' aria-label='Light'>
               <WbSunnyIcon />
             </ToggleButton>
           </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
-      <MapUpMap location={location} styleVal={styleVal} />
+      <MapUpMap
+        location={location} setLocation={setLocation} feature={feature} getFeature={getFeature} places={places}
+        getBuildingFromTOID={getBuildingFromTOID} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup}
+      />
       <Footer />
     </>
   )

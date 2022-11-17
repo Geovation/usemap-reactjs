@@ -14,6 +14,16 @@ export const PlacesAPI = {
 
     // returning the data from API
     return response.data
+  },
+  getBuildingFromTOID: async function (input, cancel = false) {
+    const response = await api.request({
+      url: `/places/toid/${input}`,
+      method: 'GET',
+      // retrieving the signal value by using the property name
+      signal: cancel ? cancelApiObject[this.toidbuilding.name].handleRequestCancellation().signal : undefined
+    })
+    // returning the data from API
+    return response.data
   }
 }
 
