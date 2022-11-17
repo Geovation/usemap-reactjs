@@ -72,7 +72,7 @@ function Search (props) {
 
             setShowPopup(false)
             getLinkedIDsFromUPRN(newValue.UPRN)
-            const ids = linkedIDs.data.correlations
+            const ids = linkedIDs.correlations
             const id = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
             const toid = id.correlatedIdentifiers[0].identifier
             getFeature(toid)
