@@ -4,7 +4,7 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
 import { toLatLng } from './utils/utils'
-import axios from 'axios'
+import useLinkedIDs from './hooks/useLinkedIDs'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -48,6 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function Search (props) {
   const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID } = props
+  const { linkedIDs, getLinkedIDsFromUPRN } = useLinkedIDs()
 
   return (
     <SearchContainer>
@@ -70,16 +71,14 @@ function Search (props) {
             const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
 
             setShowPopup(false)
-            axios.get(`https://api.os.uk/search/links/v1/identifierTypes/UPRN/${newValue.UPRN}?key=${process.env.REACT_APP_OS_API_KEY}`)
-              .then(response => {
-                const ids = response.data.correlations
-                const id = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
-                const toid = id.correlatedIdentifiers[0].identifier
-                getFeature(toid)
-                getBuildingFromTOID(toid)
-                setLocation([latlng.lng, latlng.lat])
-                setShowPopup(true)
-              })
+            getLinkedIDsFromUPRN(newValue.UPRN)
+            const ids = linkedIDs.data.correlations
+            const id = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
+            const toid = id.correlatedIdentifiers[0].identifier
+            getFeature(toid)
+            getBuildingFromTOID(toid)
+            setLocation([latlng.lng, latlng.lat])
+            setShowPopup(true)
           }
         }}
         onInputChange={(event, newValue) => {

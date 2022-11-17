@@ -3,13 +3,13 @@
 import api from './configs/axiosConfigs'
 import { defineCancelApiObject } from './configs/axiosUtils'
 
-export const FeaturesAPI = {
-  getFeature: async function (input, cancel = false) {
+export const LinkedIDsAPI = {
+  getLinkedIDsFromUPRN: async function (input, cancel = false) {
     const response = await api.request({
-      url: `/features/${input}`,
+      url: `/linkedids/uprn/${input}`,
       method: 'GET',
       // retrieving the signal value by using the property name
-      signal: cancel ? cancelApiObject[this.get_feature.name].handleRequestCancellation().signal : undefined
+      signal: cancel ? cancelApiObject[this.getLinkedIDsFromUPRN.name].handleRequestCancellation().signal : undefined
     })
 
     // returning the first feature from API
@@ -18,4 +18,4 @@ export const FeaturesAPI = {
 }
 
 // defining the cancel API object for FeaturesAPI
-const cancelApiObject = defineCancelApiObject(FeaturesAPI)
+const cancelApiObject = defineCancelApiObject(LinkedIDsAPI)

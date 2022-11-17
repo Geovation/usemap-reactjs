@@ -49,10 +49,10 @@ function App () {
             value='val'
             exclusive
           >
-            <ToggleButton onClick={() => changeStyle('Dark')} value='dark-matter' aria-label='dark-matter'>
+            <ToggleButton onClick={() => changeStyle('Dark')} value='Dark' aria-label='Dark'>
               <DarkModeIcon />
             </ToggleButton>
-            <ToggleButton onClick={() => changeStyle('Light')} value='positron' aria-label='positron'>
+            <ToggleButton onClick={() => changeStyle('Light')} value='Light' aria-label='Light'>
               <WbSunnyIcon />
             </ToggleButton>
           </ToggleButtonGroup>

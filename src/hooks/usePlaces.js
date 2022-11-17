@@ -17,7 +17,7 @@ const usePlaces = () => {
   }
 
   const getBuildingFromTOID = (search) => {
-    PlacesAPI.toidbuilding(search).then((response) => {
+    PlacesAPI.getBuildingFromTOID(search).then((response) => {
       setLoading(true)
       return response
     })

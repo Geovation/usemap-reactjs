@@ -32,7 +32,6 @@ function MapUpMap (props) {
   const toidLayer = {
     id: 'building-fill',
     type: 'fill',
-    data: { feature },
     paint: {
       'fill-color': '#3388ff',
       'fill-opacity': 1
@@ -95,32 +94,31 @@ function MapUpMap (props) {
                     <tr key={x + 'row'}><td style={{ wordWrap: 'break-word' }} key={x + 'name'}>{x.replaceAll('_', ' ').toLowerCase()}</td><td style={{ wordWrap: 'break-word' }} key={x + 'value'}>{places[0] && places[0][x] ? places[0][x] : 'none given'}</td></tr>
                   )
 
-                  return places[0] ? addr.concat(tbl1, tbl2) : 'Building information not found'
+                  return places || (feature && feature.properties) ? addr.concat(tbl1, tbl2) : 'Building information not found'
                 })()}
               </tbody>
             </table>
           </Popup>}
       </Map>
-      <div style={{ position: 'absolute', top: 'calc(100%-100px)', bottom: '60px', zIndex: 2, width: '100%' }}>
+      <div style={{ position: 'absolute', top: 'calc(100%-120px)', bottom: '60px', zIndex: 2, width: '100%' }}>
         <a
           href='https://www.ordnancesurvey.co.uk'
           style={{
             position: 'absolute',
             display: 'block',
-            height: '150px',
-            width: '200px',
+            margin: 'auto',
             left: '10px',
+            height: '50px',
             bottom: '10px',
-            textIndent: '-9999px',
             zIndex: '99999',
-            overflow: 'hidden',
-            backgroundImage: 'url("https://raw.githubusercontent.com/OrdnanceSurvey/os-api-branding/4604a642bda5dc3c5e600f4cb095aa8a0934dc05/img/os-logo-maps.svg")',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: '10 0',
-            backgroundSize: '150px 200px'
+            overflow: 'hidden'
           }}
           target='_blank' rel='noreferrer'
-        >t
+        >
+          <img
+            src='https://raw.githubusercontent.com/OrdnanceSurvey/os-api-branding/4604a642bda5dc3c5e600f4cb095aa8a0934dc05/img/os-logo-maps.svg'
+            width='120' alt='OS logo'
+          />
         </a>
       </div>
     </>

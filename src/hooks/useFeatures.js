@@ -6,7 +6,7 @@ const useFeatures = () => {
   const [feature, setFeature] = useState(null)
 
   const getFeature = (toid) => {
-    FeaturesAPI.get_feature(toid).then((response) => {
+    FeaturesAPI.getFeature(toid).then((response) => {
       setLoading(true)
       return response
     })
