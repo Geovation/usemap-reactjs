@@ -13,7 +13,6 @@ const useLinkedIDs = () => {
       .then((response) => {
         setLoading(false)
         setLinkedIDs(response)
-        console.log(linkedIDs)
       })
   }
 

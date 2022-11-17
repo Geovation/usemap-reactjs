@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import Map, { Layer, Source } from 'react-map-gl'
 import MapPopup from './MapPopup.js'
 
+
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
 
@@ -79,7 +80,8 @@ function MapUpMap (props) {
           <Layer {...toidLayer} />
         </Source>
         {showPopup &&
-          <MapPopup tableData={tableData} location={location} />}
+          <MapPopup tableData={tableData} location={location} />
+        }
       </Map>
       <div style={{ position: 'absolute', top: 'calc(100%-120px)', bottom: '60px', zIndex: 2, width: '100%' }}>
         <a
