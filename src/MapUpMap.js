@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import Map, { Layer, Popup, Source } from 'react-map-gl'
+import Map, { Layer, Source } from 'react-map-gl'
+import MapPopup from './MapPopup.js'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
@@ -38,6 +39,13 @@ function MapUpMap (props) {
     }
   }
 
+  const tableData = {
+    address: places[0] ? places[0].ADDRESS : 'no address given',
+    data:
+    [[['area (sq m)', feature && feature.properties && feature.properties.CalculatedAreaValue ? parseInt(feature.properties.CalculatedAreaValue) : '']].concat(
+      ['UPRN', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
+  }
+
   return (
     <>
       <Map
@@ -71,34 +79,7 @@ function MapUpMap (props) {
           <Layer {...toidLayer} />
         </Source>
         {showPopup &&
-          <Popup
-            style={{ fontFamily: 'Trebuchet MS, Arial, sans-serif' }}
-            longitude={location[0]} latitude={location[1]}
-            closeOnClick={false}
-            interactiveLayerIds={['topographic-areas']}
-            anchor='bottom'
-          >
-            <table style={{ width: '100%', position: 'relative', tableLayout: 'fixed', textAlign: 'center' }}>
-              <tbody>
-                {(() => {
-                // build popup text
-                  const addr =
-                [<tr key='addressrow'><td colSpan='2' key='addressvalue'>{places[0] ? places[0].ADDRESS : 'No name given'}</td></tr>]
-
-                  const x = 'CalculatedAreaValue'
-                  const tbl1 = // for info from TOID call
-                    <tr key={x + 'row'}><td key={x + 'name'}>area (sq m)</td><td key={x + 'value'}>{feature && feature.properties && feature.properties[x] ? parseInt(feature.properties[x]) : ''}</td></tr>
-
-                  const arr2 = ['UPRN', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'] // for info from UPRN call
-                  const tbl2 = arr2.map(x =>
-                    <tr key={x + 'row'}><td style={{ wordWrap: 'break-word' }} key={x + 'name'}>{x.replaceAll('_', ' ').toLowerCase()}</td><td style={{ wordWrap: 'break-word' }} key={x + 'value'}>{places[0] && places[0][x] ? places[0][x] : 'none given'}</td></tr>
-                  )
-
-                  return places || (feature && feature.properties) ? addr.concat(tbl1, tbl2) : 'Building information not found'
-                })()}
-              </tbody>
-            </table>
-          </Popup>}
+          <MapPopup tableData={tableData} location={location} />}
       </Map>
       <div style={{ position: 'absolute', top: 'calc(100%-120px)', bottom: '60px', zIndex: 2, width: '100%' }}>
         <a
