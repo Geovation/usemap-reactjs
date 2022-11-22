@@ -32,10 +32,63 @@ function MapUpMap (props) {
 
   const toidLayer = {
     id: 'building-fill',
-    type: 'fill',
-    paint: {
-      'fill-color': '#3388ff',
-      'fill-opacity': 1
+    type: 'fill-extrusion',
+    "paint": {
+      "fill-extrusion-color": "#0000FF",
+      "fill-extrusion-height": [
+          "interpolate",
+          [ "linear" ],
+          [ "zoom" ],
+          15,
+          0,
+          15.05,
+          [ "get", "relativeheightmaximum" ]
+      ],
+      "fill-extrusion-opacity": [
+          "interpolate",
+          [ "linear" ],
+          [ "zoom" ],
+          15,
+          0,
+          16,
+          0.9
+      ]
+  }
+  }
+
+
+  const heightLayer = {
+    "id": "OS/TopographicArea_2/Building/1_3D",
+    "type": "fill-extrusion",
+    "source": "esri",
+    "source-layer": "TopographicArea_2",
+    "filter": [
+        "==",
+        "_symbol",
+        4
+    ],
+    "minzoom": 15,
+    "layout": {},
+    "paint": {
+        "fill-extrusion-color": "#DCD7C6",
+        "fill-extrusion-height": [
+            "interpolate",
+            [ "linear" ],
+            [ "zoom" ],
+            15,
+            0,
+            15.05,
+            [ "get", "RelHMax" ]
+        ],
+        "fill-extrusion-opacity": [
+            "interpolate",
+            [ "linear" ],
+            [ "zoom" ],
+            15,
+            0,
+            16,
+            0.9
+        ]
     }
   }
 
@@ -75,6 +128,7 @@ function MapUpMap (props) {
         }
       }
       >
+        <Layer {...heightLayer} />
         <Source id='building-highlight' type='geojson' data={feature}>
           <Layer {...toidLayer} />
         </Source>
