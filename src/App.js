@@ -7,8 +7,8 @@ import Toolbar from '@mui/material/Toolbar'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 
-import DarkModeIcon from '@mui/icons-material/DarkMode'
-import WbSunnyIcon from '@mui/icons-material/WbSunny'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 
 import MapUpMap from './MapUpMap'
 import Search from './Search'
@@ -26,11 +26,11 @@ function App () {
   const [location, setLocation] = useState([-1.471061, 50.9382])
   const { feature, getFeatureNGD } = useFeatures()
   const { loading, places, searchPlaces, getBuildingFromTOID } = usePlaces([])
-  const [styleVal, setStyleVal] = useState('Light')
   const [showPopup, setShowPopup] = useState(false)
+  const [heights, setHeights] = useState(true)
 
-  function changeStyle (name) {
-    setStyleVal(name)
+  function changeHeights(name) {
+    setHeights(name)
   }
 
   return (
@@ -49,18 +49,15 @@ function App () {
             value='val'
             exclusive
           >
-            <ToggleButton onClick={() => changeStyle('Dark')} value='Dark' aria-label='Dark'>
-              <DarkModeIcon />
-            </ToggleButton>
-            <ToggleButton onClick={() => changeStyle('Light')} value='Light' aria-label='Light'>
-              <WbSunnyIcon />
+            <ToggleButton onClick={() => changeHeights(!heights)} value='toggle' aria-label='toggle'>
+              {heights ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
             </ToggleButton>
           </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
       <MapUpMap
-        location={location} setLocation={setLocation} feature={feature} getFeatureNGD={getFeatureNGD} places={places}
-        getBuildingFromTOID={getBuildingFromTOID} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup}
+        location={location} setLocation={setLocation} feature={feature} heights={heights} getFeatureNGD={getFeatureNGD} places={places}
+        getBuildingFromTOID={getBuildingFromTOID} showPopup={showPopup} setShowPopup={setShowPopup}
       />
       <Footer />
     </>

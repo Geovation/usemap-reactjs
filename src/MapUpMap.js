@@ -6,7 +6,7 @@ import MapPopup from './MapPopup.js'
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, setLocation, feature, getFeatureNGD, places, getBuildingFromTOID, showPopup, setShowPopup } = props
+  const { location, setLocation, feature, getFeatureNGD, heights, places, getBuildingFromTOID, showPopup, setShowPopup } = props
   const mapRef = useRef()
 
   const onMapClick = (e) => {
@@ -42,7 +42,7 @@ function MapUpMap (props) {
         15,
         0,
         15.05,
-        ['get', 'relativeheightmaximum']
+        heights ? ['get', 'relativeheightmaximum'] : 0
       ]
     }
   }
@@ -75,7 +75,7 @@ function MapUpMap (props) {
         15,
         0,
         15.4,
-        ['get', 'RelHMax']
+        heights ? ['get', 'RelHMax'] : 0
       ],
       'fill-extrusion-opacity': [
         'interpolate',
