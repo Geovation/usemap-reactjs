@@ -29,7 +29,7 @@ function App () {
   const [showPopup, setShowPopup] = useState(false)
   const [heights, setHeights] = useState(true)
 
-  function changeHeights(name) {
+  function changeHeights (name) {
     setHeights(name)
   }
 
