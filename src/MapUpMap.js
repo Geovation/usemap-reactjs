@@ -6,7 +6,7 @@ import MapPopup from './MapPopup.js'
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, setLocation, feature, getFeatureNGD, heights, places, getBuildingFromTOID, showPopup, setShowPopup } = props
+  const { location, setLocation, feature, getFeature, heights, places, getBuildingFromTOID, showPopup, setShowPopup } = props
   const mapRef = useRef()
 
   const onMapClick = (e) => {
@@ -15,7 +15,7 @@ function MapUpMap (props) {
     if (fs.length > 0) {
       const building = fs.find(x => x.layer.id.includes('Building/'))
       if (building) {
-        getFeatureNGD(building.properties.TOID)
+        getFeature(building.properties.TOID)
         getBuildingFromTOID(building.properties.TOID)
         setLocation([e.lngLat.lng, e.lngLat.lat])
         setShowPopup(true)
