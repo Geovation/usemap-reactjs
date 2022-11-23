@@ -33,30 +33,29 @@ function MapUpMap (props) {
   const toidLayer = {
     id: 'building-fill',
     type: 'fill-extrusion',
-    "paint": {
-      "fill-extrusion-color": "#0000FF",
-      "fill-extrusion-height": [
-          "interpolate",
-          [ "linear" ],
-          [ "zoom" ],
-          15,
-          0,
-          15.05,
-          [ "get", "relativeheightmaximum" ]
-      ],
+    paint: {
+      'fill-extrusion-color': '#0000FF',
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'relativeheightmaximum']
+      ]
     }
   }
 
-
   const heightLayer = {
-    "id": "OS/TopographicArea_2/Building/1_3D",
-    "type": "fill-extrusion",
-    "source": "esri",
-    "source-layer": "TopographicArea_2",
-    "filter": ['all',
+    id: 'OS/TopographicArea_2/Building/1_3D',
+    type: 'fill-extrusion',
+    source: 'esri',
+    'source-layer': 'TopographicArea_2',
+    filter: ['all',
       [
-        "==",
-        "_symbol",
+        '==',
+        '_symbol',
         4
       ],
       [
@@ -65,28 +64,28 @@ function MapUpMap (props) {
         feature && feature.properties ? feature.properties.toid : 0
       ]
     ],
-    "minzoom": 15,
-    "layout": {},
-    "paint": {
-        "fill-extrusion-color": "#DCD7C6",
-        "fill-extrusion-height": [
-            "interpolate",
-            [ "linear" ],
-            [ "zoom" ],
-            15,
-            0,
-            15.4,
-            [ "get", "RelHMax" ]
-        ],
-        "fill-extrusion-opacity": [
-            "interpolate",
-            [ "linear" ],
-            [ "zoom" ],
-            15,
-            0,
-            16,
-            0.9
-        ]
+    minzoom: 15,
+    layout: {},
+    paint: {
+      'fill-extrusion-color': '#DCD7C6',
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.4,
+        ['get', 'RelHMax']
+      ],
+      'fill-extrusion-opacity': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        16,
+        0.9
+      ]
     }
   }
 
@@ -94,8 +93,8 @@ function MapUpMap (props) {
     address: places[0] ? places[0].ADDRESS : 'no address given',
     data:
     [[
-      ['area (sq m)', feature && feature.properties && feature.properties.geometry_area ? parseInt(feature.properties.geometry_area) : ''], 
-      ['max height', feature && feature.properties && feature.properties.relativeheightmaximum ? feature.properties.relativeheightmaximum : 'none given'],
+      ['area (sq m)', feature && feature.properties && feature.properties.geometry_area ? parseInt(feature.properties.geometry_area) : ''],
+      ['max height', feature && feature.properties && feature.properties.relativeheightmaximum ? feature.properties.relativeheightmaximum : 'none given']
     ].concat(
       ['CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
   }
