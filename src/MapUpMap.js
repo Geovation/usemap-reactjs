@@ -6,7 +6,7 @@ import MapPopup from './MapPopup.js'
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, setLocation, feature, getFeature, places, getBuildingFromTOID, showPopup, setShowPopup } = props
+  const { location, setLocation, feature, getFeatureNGD, places, getBuildingFromTOID, showPopup, setShowPopup } = props
   const mapRef = useRef()
 
   const onMapClick = (e) => {
@@ -15,7 +15,7 @@ function MapUpMap (props) {
     if (fs.length > 0) {
       const building = fs.find(x => x.layer.id.includes('Building/'))
       if (building) {
-        getFeature(building.properties.TOID)
+        getFeatureNGD(building.properties.TOID)
         getBuildingFromTOID(building.properties.TOID)
         setLocation([e.lngLat.lng, e.lngLat.lat])
         setShowPopup(true)
@@ -44,16 +44,7 @@ function MapUpMap (props) {
           15.05,
           [ "get", "relativeheightmaximum" ]
       ],
-      "fill-extrusion-opacity": [
-          "interpolate",
-          [ "linear" ],
-          [ "zoom" ],
-          15,
-          0,
-          16,
-          0.9
-      ]
-  }
+    }
   }
 
 
@@ -62,10 +53,17 @@ function MapUpMap (props) {
     "type": "fill-extrusion",
     "source": "esri",
     "source-layer": "TopographicArea_2",
-    "filter": [
+    "filter": ['all',
+      [
         "==",
         "_symbol",
         4
+      ],
+      [
+        '!=',
+        'TOID',
+        feature && feature.properties ? feature.properties.toid : 0
+      ]
     ],
     "minzoom": 15,
     "layout": {},
@@ -77,7 +75,7 @@ function MapUpMap (props) {
             [ "zoom" ],
             15,
             0,
-            15.05,
+            15.4,
             [ "get", "RelHMax" ]
         ],
         "fill-extrusion-opacity": [
@@ -95,8 +93,11 @@ function MapUpMap (props) {
   const tableData = {
     address: places[0] ? places[0].ADDRESS : 'no address given',
     data:
-    [[['area (sq m)', feature && feature.properties && feature.properties.CalculatedAreaValue ? parseInt(feature.properties.CalculatedAreaValue) : '']].concat(
-      ['UPRN', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
+    [[
+      ['area (sq m)', feature && feature.properties && feature.properties.geometry_area ? parseInt(feature.properties.geometry_area) : ''], 
+      ['max height', feature && feature.properties && feature.properties.relativeheightmaximum ? feature.properties.relativeheightmaximum : 'none given'],
+    ].concat(
+      ['CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
   }
 
   return (

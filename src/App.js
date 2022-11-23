@@ -24,7 +24,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 
 function App () {
   const [location, setLocation] = useState([-1.471061, 50.9382])
-  const { feature, getFeature } = useFeatures()
+  const { feature, getFeatureNGD } = useFeatures()
   const { loading, places, searchPlaces, getBuildingFromTOID } = usePlaces([])
   const [styleVal, setStyleVal] = useState('Light')
   const [showPopup, setShowPopup] = useState(false)
@@ -41,7 +41,7 @@ function App () {
         <Toolbar>
           <Search
             setLocation={setLocation} setShowPopup={setShowPopup} feature={feature} loading={loading}
-            places={places} searchPlaces={searchPlaces} getFeature={getFeature} getBuildingFromTOID={getBuildingFromTOID}
+            places={places} searchPlaces={searchPlaces} getFeatureNGD={getFeatureNGD} getBuildingFromTOID={getBuildingFromTOID}
           />
           <Box variant='h6' component='div' sx={{ flexGrow: 1 }} />
           <ToggleButtonGroup
@@ -59,7 +59,7 @@ function App () {
         </Toolbar>
       </AppBar>
       <MapUpMap
-        location={location} setLocation={setLocation} feature={feature} getFeature={getFeature} places={places}
+        location={location} setLocation={setLocation} feature={feature} getFeatureNGD={getFeatureNGD} places={places}
         getBuildingFromTOID={getBuildingFromTOID} styleVal={styleVal} showPopup={showPopup} setShowPopup={setShowPopup}
       />
       <Footer />
