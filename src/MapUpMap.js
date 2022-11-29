@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import Map, { Layer, Source } from 'react-map-gl'
+import Map, { Layer } from 'react-map-gl'
 import MapPopup from './MapPopup.js'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -157,7 +157,7 @@ function MapUpMap (props) {
       >
         <Layer {...toidLayer} />
         <Layer {...heightLayer} />
-  
+
         {showPopup &&
           <MapPopup tableData={tableData} location={location} />}
       </Map>
