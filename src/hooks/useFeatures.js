@@ -16,18 +16,7 @@ const useFeatures = () => {
       })
   }
 
-  const getFeatureNGD = (toid) => {
-    FeaturesAPI.getFeatureNGD(toid).then((response) => {
-      setLoading(true)
-      return response
-    })
-      .then((response) => {
-        setLoading(false)
-        setFeature(response.features[0]) // first feature (only feature)
-      })
-  }
-
-  return { loading, feature, getFeature, getFeatureNGD }
+  return { loading, feature, getFeature }
 }
 
 export default useFeatures

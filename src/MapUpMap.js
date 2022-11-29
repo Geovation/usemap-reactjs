@@ -30,23 +30,6 @@ function MapUpMap (props) {
     }
   }, [location])
 
-  const toidLayer = {
-    id: 'building-fill',
-    type: 'fill-extrusion',
-    paint: {
-      'fill-extrusion-color': '#0000FF',
-      'fill-extrusion-height': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        15,
-        0,
-        15.05,
-        heights ? ['get', 'relativeheightmaximum'] : 0
-      ]
-    }
-  }
-
   const heightLayer = {
     id: 'OS/TopographicArea_2/Building/1_3D',
     type: 'fill-extrusion',
@@ -66,13 +49,57 @@ function MapUpMap (props) {
     ],
     minzoom: 15,
     layout: {},
+    visibility: true,
     paint: {
       'fill-extrusion-color': '#DCD7C6',
       'fill-extrusion-height': [
         'interpolate',
         ['linear'],
         ['zoom'],
+        13,
+        0,
+        15.4,
+        heights ? ['get', 'RelHMax'] : 0
+      ],
+      'fill-extrusion-opacity': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
         15,
+        0,
+        16,
+        0.9
+      ]
+    }
+  }
+
+  const toidLayer = {
+    id: 'OS/TopographicArea_2/Building/TOIDmatch3D',
+    type: 'fill-extrusion',
+    source: 'esri',
+    'source-layer': 'TopographicArea_2',
+    filter: ['all',
+      [
+        '==',
+        '_symbol',
+        4
+      ],
+      [
+        '==',
+        'TOID',
+        feature && feature.properties ? feature.properties.toid : 0
+      ]
+    ],
+    minzoom: 15,
+    layout: {},
+    visibility: true,
+    paint: {
+      'fill-extrusion-color': '#008FFF',
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        13,
         0,
         15.4,
         heights ? ['get', 'RelHMax'] : 0
@@ -128,6 +155,7 @@ function MapUpMap (props) {
         }
       }
       >
+        <Layer {...toidLayer} />
         <Layer {...heightLayer} />
         <Source id='building-highlight' type='geojson' data={feature}>
           <Layer {...toidLayer} />
