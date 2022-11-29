@@ -157,9 +157,7 @@ function MapUpMap (props) {
       >
         <Layer {...toidLayer} />
         <Layer {...heightLayer} />
-        <Source id='building-highlight' type='geojson' data={feature}>
-          <Layer {...toidLayer} />
-        </Source>
+  
         {showPopup &&
           <MapPopup tableData={tableData} location={location} />}
       </Map>
