@@ -47,8 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { setLocation, setShowPopup, getFeature, loading, places, searchPlaces, getBuildingFromTOID } = props
-  const { linkedIDs, getLinkedIDsFromUPRN } = useLinkedIDs()
+  const { places, searchPlaces, onComplete } = props
 
   return (
     <SearchContainer>
@@ -67,19 +66,7 @@ function Search (props) {
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
         onChange={(event, newValue) => {
-          if (newValue.X_COORDINATE && !loading) {
-            const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
-
-            setShowPopup(false)
-            getLinkedIDsFromUPRN(newValue.UPRN)
-            const ids = linkedIDs.correlations
-            const id = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
-            const toid = id.correlatedIdentifiers[0].identifier
-            getFeature(toid)
-            getBuildingFromTOID(toid)
-            setLocation([latlng.lng, latlng.lat])
-            setShowPopup(true)
-          }
+            onComplete(newValue)
         }}
         onInputChange={(event, newValue) => {
           if (newValue.length > 0) {
