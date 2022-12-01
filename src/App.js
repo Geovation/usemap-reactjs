@@ -18,6 +18,9 @@ import Footer from './Footer'
 
 import usePlaces from './hooks/usePlaces'
 import useFeatures from './hooks/useFeatures'
+import useLinkedIDs from './hooks/useLinkedIDs'
+
+import { toLatLng } from './utils/utils.js'
 
 import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -28,9 +31,25 @@ function App () {
   const { loading, places, searchPlaces, getBuildingFromTOID } = usePlaces([])
   const [showPopup, setShowPopup] = useState(false)
   const [heights, setHeights] = useState(true)
+  const { linkedIDs, getLinkedIDsFromUPRN } = useLinkedIDs()
 
   function changeHeights (name) {
     setHeights(name)
+  }
+
+  function onComplete (newValue) {
+    if (newValue.X_COORDINATE && !loading) {
+      const latlng = toLatLng({ ea: newValue.X_COORDINATE, no: newValue.Y_COORDINATE })
+      setShowPopup(false)
+      getLinkedIDsFromUPRN(newValue.UPRN)
+      const ids = linkedIDs.correlations
+      const id = ids.find(c => c.correlatedFeatureType === 'TopographicArea')
+      const toid = id.correlatedIdentifiers[0].identifier
+      getFeature(toid)
+      getBuildingFromTOID(toid)
+      setLocation([latlng.lng, latlng.lat])
+      setShowPopup(true)
+    }
   }
 
   return (
@@ -40,8 +59,7 @@ function App () {
       <AppBar position='fixed' color='transparent' elevation={0}>
         <Toolbar>
           <Search
-            setLocation={setLocation} setShowPopup={setShowPopup} feature={feature} loading={loading}
-            places={places} searchPlaces={searchPlaces} getFeature={getFeature} getBuildingFromTOID={getBuildingFromTOID}
+            places={places} searchPlaces={searchPlaces} onComplete={onComplete}
           />
           <Box variant='h6' component='div' sx={{ flexGrow: 1 }} />
           <ToggleButtonGroup
