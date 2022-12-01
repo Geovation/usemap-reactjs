@@ -37,6 +37,8 @@ export default function MapModal (props) {
   ))
 
   const body = body1.concat(body2)
+  //sort alphabetically
+  body.sort(function(a,b){return a.props.children[0].props.children.localeCompare(b.props.children[0].props.children)})
 
   return (
     <ReactModal
