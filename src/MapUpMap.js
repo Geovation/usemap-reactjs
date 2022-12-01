@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react'
-import Map, { Layer, Source } from 'react-map-gl'
+import Map, { Layer } from 'react-map-gl'
 import MapPopup from './MapPopup.js'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, setLocation, feature, getFeature, places, getBuildingFromTOID, showPopup, setShowPopup } = props
+  const { location, setLocation, feature, getFeature, heights, places, getBuildingFromTOID, showPopup, setShowPopup } = props
   const mapRef = useRef()
 
   const onMapClick = (e) => {
@@ -30,20 +30,100 @@ function MapUpMap (props) {
     }
   }, [location])
 
-  const toidLayer = {
-    id: 'building-fill',
-    type: 'fill',
+  const heightLayer = {
+    id: 'OS/TopographicArea_2/Building/1_3D',
+    type: 'fill-extrusion',
+    source: 'esri',
+    'source-layer': 'TopographicArea_2',
+    filter: ['all',
+      [
+        '==',
+        '_symbol',
+        4
+      ],
+      [
+        '!=',
+        'TOID',
+        feature && feature.properties ? feature.properties.toid : 0
+      ]
+    ],
+    minzoom: 15,
+    layout: {},
+    visibility: true,
     paint: {
-      'fill-color': '#3388ff',
-      'fill-opacity': 1
+      'fill-extrusion-color': '#DCD7C6',
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        13,
+        0,
+        15.4,
+        heights ? ['get', 'RelHMax'] : 0
+      ],
+      'fill-extrusion-opacity': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        16,
+        0.9
+      ]
+    }
+  }
+
+  const toidLayer = {
+    id: 'OS/TopographicArea_2/Building/TOIDmatch3D',
+    type: 'fill-extrusion',
+    source: 'esri',
+    'source-layer': 'TopographicArea_2',
+    filter: ['all',
+      [
+        '==',
+        '_symbol',
+        4
+      ],
+      [
+        '==',
+        'TOID',
+        feature && feature.properties ? feature.properties.toid : 0
+      ]
+    ],
+    minzoom: 15,
+    layout: {},
+    visibility: true,
+    paint: {
+      'fill-extrusion-color': '#008FFF',
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        13,
+        0,
+        15.4,
+        heights ? ['get', 'RelHMax'] : 0
+      ],
+      'fill-extrusion-opacity': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        16,
+        0.9
+      ]
     }
   }
 
   const tableData = {
     address: places[0] ? places[0].ADDRESS : 'no address given',
     data:
-    [[['area (sq m)', feature && feature.properties && feature.properties.CalculatedAreaValue ? parseInt(feature.properties.CalculatedAreaValue) : '']].concat(
-      ['UPRN', 'CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
+    [[
+      ['area (sq m)', feature && feature.properties && feature.properties.geometry_area ? parseInt(feature.properties.geometry_area) : ''],
+      ['max height', feature && feature.properties && feature.properties.relativeheightmaximum ? feature.properties.relativeheightmaximum : 'none given']
+    ].concat(
+      ['CLASSIFICATION_CODE', 'CLASSIFICATION_CODE_DESCRIPTION'].map(x => [x.replaceAll('_', ''), places[0] && places[0][x] ? places[0][x] : 'none given']))][0]
   }
 
   return (
@@ -75,9 +155,9 @@ function MapUpMap (props) {
         }
       }
       >
-        <Source id='building-highlight' type='geojson' data={feature}>
-          <Layer {...toidLayer} />
-        </Source>
+        <Layer {...toidLayer} />
+        <Layer {...heightLayer} />
+
         {showPopup &&
           <MapPopup tableData={tableData} location={location} />}
       </Map>

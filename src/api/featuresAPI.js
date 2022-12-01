@@ -14,6 +14,17 @@ export const FeaturesAPI = {
 
     // returning the first feature from API
     return response.data
+  },
+  getFeatureNGD: async function (input, cancel = false) {
+    const response = await api.request({
+      url: `/features/ngd/${input}`,
+      method: 'GET',
+      // retrieving the signal value by using the property name
+      signal: cancel ? cancelApiObject[this.get_feature.name].handleRequestCancellation().signal : undefined
+    })
+
+    // returning the first feature from API
+    return response.data
   }
 }
 
