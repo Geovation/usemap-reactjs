@@ -6,7 +6,7 @@ import MapPopup from './MapPopup.js'
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, setLocation, feature, getFeature, heights, places, getBuildingFromTOID, showPopup, setShowPopup, toggleModal} = props
+  const { location, setLocation, feature, getFeature, heights, places, getBuildingFromTOID, showPopup, setShowPopup, toggleModal } = props
   const mapRef = useRef()
 
   const onMapClick = (e) => {
@@ -159,7 +159,7 @@ function MapUpMap (props) {
         <Layer {...heightLayer} />
 
         {showPopup &&
-          <MapPopup tableData={tableData} location={location} toggleModal = {toggleModal}/>}
+          <MapPopup tableData={tableData} location={location} toggleModal={toggleModal} />}
       </Map>
       <div style={{ position: 'absolute', top: 'calc(100%-120px)', bottom: '60px', zIndex: 2, width: '100%' }}>
         <a

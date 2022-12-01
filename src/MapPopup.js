@@ -8,12 +8,13 @@ import MapTable from './MapTable'
 function MapPopup (props) {
   const { tableData, location, toggleModal } = props
 
-  let head = 
-  <TableRow>
-    <TableCell colSpan='2' align='center'>{tableData.address}</TableCell>
-  </TableRow>
+  const head = (
+    <TableRow>
+      <TableCell colSpan='2' align='center'>{tableData.address}</TableCell>
+    </TableRow>
+  )
 
-  let body = tableData.data.map((row) => (
+  const body = tableData.data.map((row) => (
     <TableRow
       key={row[0].toLowerCase()}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
