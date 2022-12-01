@@ -82,7 +82,7 @@ function App () {
       </AppBar>
       <MapUpMap
         location={location} setLocation={setLocation} feature={feature} heights={heights} getFeature={getFeature} places={places}
-        getBuildingFromTOID={getBuildingFromTOID} showPopup={showPopup} setShowPopup={setShowPopup} toggleModal={toggleModal}
+        getBuildingFromTOID={getBuildingFromTOID} showPopup={showPopup} setShowPopup={setShowPopup} showModal={showModal} toggleModal={toggleModal}
       />
       <MapModal places={places} feature={feature} showModal={showModal} toggleModal={toggleModal} />
       <Footer />

@@ -6,10 +6,13 @@ import MapPopup from './MapPopup.js'
 import maplibregl from '!maplibre-gl'
 
 function MapUpMap (props) {
-  const { location, setLocation, feature, getFeature, heights, places, getBuildingFromTOID, showPopup, setShowPopup, toggleModal } = props
+  const { location, setLocation, feature, getFeature, heights, places, getBuildingFromTOID, showPopup, setShowPopup, showModal, toggleModal } = props
   const mapRef = useRef()
 
   const onMapClick = (e) => {
+    if(showModal) {
+      toggleModal()
+    }
     setShowPopup(false)
     const fs = mapRef.current.queryRenderedFeatures(e.point)
     if (fs.length > 0) {
