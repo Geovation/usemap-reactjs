@@ -3,8 +3,6 @@ import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete from '@mui/material/Autocomplete'
-import { toLatLng } from './utils/utils'
-import useLinkedIDs from './hooks/useLinkedIDs'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -66,7 +64,7 @@ function Search (props) {
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
         onChange={(event, newValue) => {
-            onComplete(newValue)
+          onComplete(newValue)
         }}
         onInputChange={(event, newValue) => {
           if (newValue.length > 0) {
