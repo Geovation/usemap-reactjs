@@ -1,4 +1,4 @@
-import ReactModal from 'react-modal'
+import Modal from '@mui/material/Modal'
 
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
@@ -37,39 +37,41 @@ export default function MapModal (props) {
   ))
 
   const body = body1.concat(body2)
-  //sort alphabetically
-  body.sort(function(a,b){return a.props.children[0].props.children.localeCompare(b.props.children[0].props.children)})
+  // sort alphabetically
+  body.sort(function (a, b) { return a.props.children[0].props.children.localeCompare(b.props.children[0].props.children) })
 
   return (
-    <ReactModal
-      isOpen={showModal}
+    <Modal
+      open={showModal}
+      disableEnforceFocus
       style={{
-        overlay: {
-          zIndex: 100,
-          width: 'max(200px, 80%)',
-          height: 'max(400px, 50%)',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)'
-        }
+        backgroundColor: 'black',
+        padding: 20,
+        zIndex: 100,
+        width: 'max(200px, 80%)',
+        height: 'max(400px, 50%)',
+        position: 'absolute',
+        overflowY: 'auto',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
       }}
-      ariaHideApp={false}
-      contentLabel='Information about selected building'
     >
-      <MapTable head={head} body={body} />
-      <button
-        style={{
-          position: 'fixed',
-          right: '10px',
-          top: '10px',
-          backgroundColor: 'transparent',
-          fontSize: '24px',
-          border: '0px solid black'
-        }}
-        onClick={toggleModal}
-      >x
-      </button>
-    </ReactModal>
+      <>
+        <MapTable head={head} body={body} />
+        <button
+          style={{
+            position: 'absolute',
+            right: '30px',
+            top: '20px',
+            backgroundColor: 'transparent',
+            fontSize: '24px',
+            border: '0px solid black'
+          }}
+          onClick={toggleModal}
+        >x
+        </button>
+      </>
+    </Modal>
   )
 }

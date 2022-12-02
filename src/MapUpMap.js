@@ -10,7 +10,7 @@ function MapUpMap (props) {
   const mapRef = useRef()
 
   const onMapClick = (e) => {
-    if(showModal) {
+    if (showModal) {
       toggleModal()
     }
     setShowPopup(false)
