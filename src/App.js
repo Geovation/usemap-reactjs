@@ -24,6 +24,7 @@ import { toLatLng } from './utils/utils.js'
 
 import MapModal from './MapModal.js'
 
+
 import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -35,6 +36,7 @@ function App () {
   const [heights, setHeights] = useState(true)
   const { linkedIDs, getLinkedIDsFromUPRN } = useLinkedIDs()
   const [showModal, setShowModal] = useState(false)
+
 
   function changeHeights (name) {
     setHeights(name)
@@ -58,6 +60,7 @@ function App () {
   function toggleModal () {
     setShowModal(!showModal)
   }
+
 
   return (
     <>
