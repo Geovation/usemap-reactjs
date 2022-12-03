@@ -22,6 +22,8 @@ import useLinkedIDs from './hooks/useLinkedIDs'
 
 import { toLatLng } from './utils/utils.js'
 
+import MapModal from './MapModal.js'
+
 import './App.css'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -32,6 +34,7 @@ function App () {
   const [showPopup, setShowPopup] = useState(false)
   const [heights, setHeights] = useState(true)
   const { linkedIDs, getLinkedIDsFromUPRN } = useLinkedIDs()
+  const [showModal, setShowModal] = useState(false)
 
   function changeHeights (name) {
     setHeights(name)
@@ -50,6 +53,10 @@ function App () {
       setLocation([latlng.lng, latlng.lat])
       setShowPopup(true)
     }
+  }
+
+  function toggleModal () {
+    setShowModal(!showModal)
   }
 
   return (
@@ -75,8 +82,9 @@ function App () {
       </AppBar>
       <MapUpMap
         location={location} setLocation={setLocation} feature={feature} heights={heights} getFeature={getFeature} places={places}
-        getBuildingFromTOID={getBuildingFromTOID} showPopup={showPopup} setShowPopup={setShowPopup}
+        getBuildingFromTOID={getBuildingFromTOID} showPopup={showPopup} setShowPopup={setShowPopup} showModal={showModal} toggleModal={toggleModal}
       />
+      <MapModal places={places} feature={feature} showModal={showModal} toggleModal={toggleModal} />
       <Footer />
     </>
   )
