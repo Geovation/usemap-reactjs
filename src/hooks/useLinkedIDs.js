@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { LinkedIDsAPI } from '../api/linkedIDsAPI'
+import { LinkedIDsAPI } from './../api/linkedIDsAPI'
 
 const useLinkedIDs = () => {
   const [loadingLinkedIDs, setLoadingLinkedIDs] = useState(false)
