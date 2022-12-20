@@ -1,21 +1,12 @@
-// big thank you to https://semaphoreci.com/blog/api-layer-react
-
-import api from './configs/axiosConfigs'
-import { defineCancelApiObject } from './configs/axiosUtils'
+import api from './config/axiosConfig'
 
 export const LinkedIDsAPI = {
-  getLinkedIDsFromUPRN: async function (input, cancel = false) {
+  getLinkedIDsFromUPRN: async function (input) {
     const response = await api.request({
       url: `/linkedids/uprn/${input}`,
-      method: 'GET',
-      // retrieving the signal value by using the property name
-      signal: cancel ? cancelApiObject[this.getLinkedIDsFromUPRN.name].handleRequestCancellation().signal : undefined
+      method: 'GET'
     })
 
-    // returning the first feature from API
     return response.data
   }
 }
-
-// defining the cancel API object for FeaturesAPI
-const cancelApiObject = defineCancelApiObject(LinkedIDsAPI)

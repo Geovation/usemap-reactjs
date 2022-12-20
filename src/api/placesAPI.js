@@ -1,31 +1,18 @@
-// big thank you to https://semaphoreci.com/blog/api-layer-react
-
-import api from './configs/axiosConfigs'
-import { defineCancelApiObject } from './configs/axiosUtils'
+import api from './config/axiosConfig'
 
 export const PlacesAPI = {
-  autofill: async function (input, cancel = false) {
+  getPlacesFromSearch: async function (search) {
     const response = await api.request({
-      url: `/places/${input}`,
-      method: 'GET',
-      // retrieving the signal value by using the property name
-      signal: cancel ? cancelApiObject[this.autofill.name].handleRequestCancellation().signal : undefined
+      url: `/places/${search}`,
+      method: 'GET'
     })
-
-    // returning the data from API
     return response.data
   },
-  getBuildingFromTOID: async function (input, cancel = false) {
+  getPlaceFromTOID: async function (toid) {
     const response = await api.request({
-      url: `/places/toid/${input}`,
-      method: 'GET',
-      // retrieving the signal value by using the property name
-      signal: cancel ? cancelApiObject[this.toidbuilding.name].handleRequestCancellation().signal : undefined
+      url: `/places/toid/${toid}`,
+      method: 'GET'
     })
-    // returning the data from API
     return response.data
   }
 }
-
-// defining the cancel API object for PlacesAPI
-const cancelApiObject = defineCancelApiObject(PlacesAPI)

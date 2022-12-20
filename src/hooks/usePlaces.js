@@ -1,33 +1,38 @@
-import { PlacesAPI } from '../api/placesAPI'
 import { useState } from 'react'
 
+import { PlacesAPI } from '../api/placesAPI'
+
 const usePlaces = () => {
-  const [loading, setLoading] = useState(false)
+  const [loadingPlace, setLoadingPlace] = useState(false)
+  const [loadingPlaces, setLoadingPlaces] = useState(false)
   const [places, setPlaces] = useState([])
+  const [place, setPlace] = useState({})
 
-  const searchPlaces = (search) => {
-    PlacesAPI.autofill(search).then((response) => {
-      setLoading(true)
-      return response
-    })
-      .then((response) => {
-        setLoading(false)
-        setPlaces(response)
-      })
+  const getPlacesFromSearch = async search => {
+    setLoadingPlaces(true)
+    const response = await PlacesAPI.getPlacesFromSearch(search)
+    setLoadingPlaces(false)
+    setPlaces(response)
+    return response
   }
 
-  const getBuildingFromTOID = (search) => {
-    PlacesAPI.getBuildingFromTOID(search).then((response) => {
-      setLoading(true)
-      return response
-    })
-      .then((response) => {
-        setLoading(false)
-        setPlaces(response)
-      })
+  const getPlaceFromTOID = async toid => {
+    setLoadingPlace(true)
+    const response = await PlacesAPI.getPlaceFromTOID(toid)
+    const place = response.length > 0 ? response[0] : {}
+    setPlace(place)
+    setLoadingPlace(false)
+    return place
   }
 
-  return { loading, places, searchPlaces, getBuildingFromTOID }
+  return {
+    loadingPlace,
+    loadingPlaces,
+    place,
+    places,
+    getPlaceFromTOID,
+    getPlacesFromSearch
+  }
 }
 
 export default usePlaces
