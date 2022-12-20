@@ -139,9 +139,14 @@ function UseMapMap (props) {
           width: '100vw',
           height: 'calc(100% - 120px)'
         }}
-        mapStyle='https://raw.githubusercontent.com/OrdnanceSurvey/OS-Vector-Tile-API-Stylesheets/master/OS_VTS_3857_Light.json'
+        mapStyle='/OS_VTS_3857_Light_UseMap.json'
         transformRequest={url => {
-          return process.env.REACT_APP_OS_MAP_KEY
+          if (!url.includes('key=')) {
+            url += `?key=${process.env.REACT_APP_OS_MAP_KEY}`
+          }
+          return {
+            url: url + '&srs=3857'
+          }
         }}
       >
         <Layer {...toidLayer} />

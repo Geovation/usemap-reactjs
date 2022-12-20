@@ -9,8 +9,8 @@ import TableRow from '@mui/material/TableRow'
 export default function MapTable (props) {
   const { tableData } = props
   return (
-    <TableContainer component={Paper}>
-      <Table>
+    <TableContainer component={Paper} elevation={0}>
+      <Table size='small'>
         <TableHead>
           <TableRow>
             <TableCell colSpan='2'>{tableData.title}</TableCell>
