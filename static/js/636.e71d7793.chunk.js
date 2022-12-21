@@ -1,2 +1,0 @@
-(self.webpackChunkmapup_reactjs=self.webpackChunkmapup_reactjs||[]).push([[636],{1636:function(e,s){s.printMsg=function(){console.log("This is a message from the demo package")}}}]);
-//# sourceMappingURL=636.e71d7793.chunk.js.map
