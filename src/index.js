@@ -6,9 +6,13 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
-import App from './App'
+import 'maplibre-gl/dist/maplibre-gl.css'
+
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
+
 import reportWebVitals from './reportWebVitals'
+
+import App from './App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

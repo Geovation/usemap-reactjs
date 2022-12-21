@@ -1,22 +1,20 @@
 import { useState } from 'react'
-import { LinkedIDsAPI } from '../api/linkedidsAPI'
+
+import { LinkedIDsAPI } from '../api/linkedIDsAPI'
 
 const useLinkedIDs = () => {
-  const [loading, setLoading] = useState(false)
+  const [loadingLinkedIDs, setLoadingLinkedIDs] = useState(false)
   const [linkedIDs, setLinkedIDs] = useState(null)
 
-  const getLinkedIDsFromUPRN = (uprn) => {
-    LinkedIDsAPI.getLinkedIDsFromUPRN(uprn).then((response) => {
-      setLoading(true)
-      return response
-    })
-      .then((response) => {
-        setLoading(false)
-        setLinkedIDs(response)
-      })
+  const getLinkedIDsFromUPRN = async uprn => {
+    setLoadingLinkedIDs(true)
+    const response = await LinkedIDsAPI.getLinkedIDsFromUPRN(uprn)
+    setLoadingLinkedIDs(false)
+    setLinkedIDs(response)
+    return response
   }
 
-  return { loading, linkedIDs, getLinkedIDsFromUPRN }
+  return { loadingLinkedIDs, linkedIDs, getLinkedIDsFromUPRN }
 }
 
 export default useLinkedIDs

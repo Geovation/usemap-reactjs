@@ -1,22 +1,21 @@
-import { FeaturesAPI } from '../api/featuresAPI'
 import { useState } from 'react'
 
+import { FeaturesAPI } from '../api/featuresAPI'
+
 const useFeatures = () => {
-  const [loading, setLoading] = useState(false)
+  const [loadingFeature, setLoadingFeature] = useState(false)
   const [feature, setFeature] = useState(null)
 
-  const getFeature = (toid) => {
-    FeaturesAPI.getFeature(toid).then((response) => {
-      setLoading(true)
-      return response
-    })
-      .then((response) => {
-        setLoading(false)
-        setFeature(response.features[0]) // first feature (only feature)
-      })
+  const getFeatureFromTOID = async toid => {
+    setLoadingFeature(true)
+    const response = await FeaturesAPI.getFeatureFromTOID(toid)
+    const feature = response.features[0]
+    setFeature(feature)
+    setLoadingFeature(false)
+    return feature
   }
 
-  return { loading, feature, getFeature }
+  return { loadingFeature, feature, getFeatureFromTOID }
 }
 
 export default useFeatures

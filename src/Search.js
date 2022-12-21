@@ -1,8 +1,13 @@
 import * as React from 'react'
+
 import { styled, alpha } from '@mui/material/styles'
-import InputBase from '@mui/material/InputBase'
-import SearchIcon from '@mui/icons-material/Search'
+
 import Autocomplete from '@mui/material/Autocomplete'
+import InputBase from '@mui/material/InputBase'
+
+import SearchIcon from '@mui/icons-material/Search'
+
+import usePlaces from './hooks/usePlaces'
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -34,7 +39,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -45,7 +49,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Search (props) {
-  const { places, searchPlaces, onComplete } = props
+  const { onSearchComplete } = props
+
+  const { places, loadingPlaces, getPlacesFromSearch } = usePlaces()
+
+  const onSearchChange = async (e, searchText) => {
+    if (searchText.length > 0 && !loadingPlaces) {
+      await getPlacesFromSearch(searchText)
+    }
+  }
 
   return (
     <SearchContainer>
@@ -54,23 +66,17 @@ function Search (props) {
       </SearchIconWrapper>
       <Autocomplete
         disablePortal
-        id='combo-box-demo'
+        id='cmb-address-search'
         options={places}
-        filterOptions={(x) => x}
-        getOptionLabel={option => option.ADDRESS ? option.ADDRESS : ''}
+        filterOptions={x => x}
+        getOptionLabel={option => (option.ADDRESS ? option.ADDRESS : '')}
         style={{ width: 500 }}
         renderInput={params => {
           const { InputLabelProps, InputProps, ...rest } = params
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
-        onChange={(event, newValue) => {
-          onComplete(newValue)
-        }}
-        onInputChange={(event, newValue) => {
-          if (newValue.length > 0) {
-            searchPlaces(newValue)
-          }
-        }}
+        onChange={(e, place) => onSearchComplete(place)}
+        onInputChange={onSearchChange}
       />
     </SearchContainer>
   )
