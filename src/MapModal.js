@@ -2,7 +2,7 @@ import Modal from '@mui/material/Modal'
 
 import MapTable from './MapTable'
 
-export default function MapModal (props) {
+function MapModal (props) {
   const { tableData, showModal } = props
 
   return (
@@ -28,3 +28,5 @@ export default function MapModal (props) {
     </Modal>
   )
 }
+
+export default MapModal

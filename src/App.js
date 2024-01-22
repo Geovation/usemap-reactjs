@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { blue, blueGrey } from '@mui/material/colors'
+
 import CssBaseline from '@mui/material/CssBaseline'
 
 import Footer from './Footer'
@@ -8,21 +11,29 @@ import MapModal from './MapModal.js'
 import UseMapMap from './UseMapMap'
 
 import useFeatures from './hooks/useFeatures'
-import useLinkedIDs from './hooks/useLinkedIDs'
 import usePlaces from './hooks/usePlaces'
 
 import { toLatLng } from './utils/utils.js'
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: blue[500]
+    },
+    secondary: {
+      main: blueGrey[800]
+    }
+  }
+})
+
 function App () {
   const [location, setLocation] = useState([-1.471061, 50.9382])
-  const [showBuildingHeights, setShowBuildingHeights] = useState(false)
   const [showBuildingModal, setShowBuildingModal] = useState(false)
   const [showMapPopup, setShowMapPopup] = useState(false)
   const [selectedPlace, setSelectedPlace] = useState(null)
   const [selectedFeature, setSelectedFeature] = useState(null)
 
   const { getFeatureFromTOID } = useFeatures()
-  const { getLinkedIDsFromUPRN } = useLinkedIDs()
   const { getPlaceFromTOID } = usePlaces()
 
   /*
@@ -31,11 +42,7 @@ function App () {
     state with the new building information.
   */
   const selectBuildingFromPlace = async place => {
-    const linkedIDs = await getLinkedIDsFromUPRN(place.UPRN)
-    const toid = linkedIDs.correlations.find(
-      c => c.correlatedFeatureType === 'TopographicArea'
-    ).correlatedIdentifiers[0].identifier
-    const feature = await getFeatureFromTOID(toid)
+    const feature = await getFeatureFromTOID(place.TOPOGRAPHY_LAYER_TOID)
     setBuildingInformation(place, feature)
   }
 
@@ -69,19 +76,14 @@ function App () {
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header
-        showBuildingHeights={showBuildingHeights}
-        setShowBuildingHeights={setShowBuildingHeights}
-        onSearchComplete={selectBuildingFromPlace}
-      />
+      <Header onSearchComplete={selectBuildingFromPlace} />
       <UseMapMap
         location={location}
         selectedPlace={selectedPlace}
         showBuildingModal={showBuildingModal}
         showMapPopup={showMapPopup}
-        showBuildingHeights={showBuildingHeights}
         setShowBuildingModal={setShowBuildingModal}
         setShowMapPopup={setShowMapPopup}
         selectBuildingFromTOID={selectBuildingFromTOID}
@@ -92,7 +94,7 @@ function App () {
         showModal={showBuildingModal}
       />
       <Footer />
-    </>
+    </ThemeProvider>
   )
 }
 

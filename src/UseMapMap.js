@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import Map, { Layer } from 'react-map-gl'
+import Map, { Layer } from 'react-map-gl/maplibre'
 
 import MapPopup from './MapPopup'
 import OSMapLogo from './OSMapLogo'
-
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import maplibregl from '!maplibre-gl'
 
 function UseMapMap (props) {
   const {
@@ -14,7 +11,6 @@ function UseMapMap (props) {
     selectedPlace,
     showBuildingModal,
     showMapPopup,
-    showBuildingHeights,
     setShowBuildingModal,
     setShowMapPopup,
     selectBuildingFromTOID
@@ -37,44 +33,12 @@ function UseMapMap (props) {
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.flyTo({ center: location, zoom: 18, essential: true })
+      mapRef.current.flyTo({ center: location, zoom: 19, essential: true })
     }
   }, [location])
 
   const heightLayer = {
     id: 'OS/TopographicArea_2/Building/1_3D',
-    type: 'fill-extrusion',
-    source: 'esri',
-    'source-layer': 'TopographicArea_2',
-    filter: ['all', ['==', '_symbol', 4], ['!=', 'TOID', selectedTOID]],
-    minzoom: 15,
-    layout: {},
-    visibility: true,
-    paint: {
-      'fill-extrusion-color': '#DCD7C6',
-      'fill-extrusion-height': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        13,
-        0,
-        15.4,
-        showBuildingHeights ? ['get', 'RelHMax'] : 0
-      ],
-      'fill-extrusion-opacity': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        15,
-        0,
-        16,
-        0.9
-      ]
-    }
-  }
-
-  const toidLayer = {
-    id: 'OS/TopographicArea_2/Building/TOIDmatch3D',
     type: 'fill-extrusion',
     source: 'esri',
     'source-layer': 'TopographicArea_2',
@@ -91,17 +55,40 @@ function UseMapMap (props) {
         13,
         0,
         15.4,
-        showBuildingHeights ? ['get', 'RelHMax'] : 0
+        ['get', 'RelHMax']
       ],
-      'fill-extrusion-opacity': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        15,
-        0,
-        16,
-        0.9
-      ]
+      'fill-extrusion-opacity': 0.7
+    }
+  }
+
+  const toidLayerFill = {
+    id: 'OS/TopographicArea_2/Building/1',
+    type: 'fill',
+    source: 'esri',
+    'source-layer': 'TopographicArea_2',
+    filter: ['all', ['==', '_symbol', 4], ['==', 'TOID', selectedTOID]],
+    minzoom: 15,
+    layout: {},
+    visibility: true,
+    paint: {
+      'fill-color': '#008FFF',
+      'fill-opacity': 0.4
+    }
+  }
+
+  const toidLayerLine = {
+    id: 'OS/TopographicArea_2/Building/1',
+    type: 'line',
+    source: 'esri',
+    'source-layer': 'TopographicArea_2',
+    filter: ['all', ['==', '_symbol', 4], ['==', 'TOID', selectedTOID]],
+    minzoom: 15,
+    layout: {},
+    visibility: true,
+    paint: {
+      'line-color': '#008FFF',
+      'line-width': 3,
+      'line-opacity': 0.8
     }
   }
 
@@ -125,19 +112,19 @@ function UseMapMap (props) {
         initialViewState={{
           latitude: location[1],
           longitude: location[0],
-          zoom: 16
+          zoom: 8
         }}
         minZoom={6}
         mapLib={maplibregl}
         customAttribution={
-          'Contains OS data &copy; Crown copyright and database rights 2022'
+          'Contains OS data &copy; Crown copyright and database rights 2023'
         }
         style={{
           position: 'fixed',
           left: 0,
-          top: 60,
+          top: 0,
           width: '100vw',
-          height: 'calc(100% - 120px)'
+          height: 'calc(100% - 0px)'
         }}
         mapStyle='/OS_VTS_3857_Light_UseMap.json'
         transformRequest={url => {
@@ -149,7 +136,8 @@ function UseMapMap (props) {
           }
         }}
       >
-        <Layer {...toidLayer} />
+        <Layer {...toidLayerFill} />
+        <Layer {...toidLayerLine} />
         <Layer {...heightLayer} />
 
         {showMapPopup && (

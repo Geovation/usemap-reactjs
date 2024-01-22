@@ -12,11 +12,13 @@ import usePlaces from './hooks/usePlaces'
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  border: '1px solid #eeeeee',
+  backgroundColor: alpha(theme.palette.primary.main, 0.9),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25)
+    backgroundColor: alpha(theme.palette.primary.main, 0.8)
   },
   marginRight: theme.spacing(2),
+  paddingRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
@@ -67,16 +69,18 @@ function Search (props) {
       <Autocomplete
         disablePortal
         id='cmb-address-search'
+        sx={{ width: 300, color: 'black' }}
         options={places}
         filterOptions={x => x}
         getOptionLabel={option => (option.ADDRESS ? option.ADDRESS : '')}
-        style={{ width: 500 }}
         renderInput={params => {
           const { InputLabelProps, InputProps, ...rest } = params
           return <StyledInputBase {...params.InputProps} {...rest} />
         }}
         onChange={(e, place) => onSearchComplete(place)}
         onInputChange={onSearchChange}
+        loading={loadingPlaces}
+        componentsProps={{ paper: { elevation: 0, outlined: true } }}
       />
     </SearchContainer>
   )

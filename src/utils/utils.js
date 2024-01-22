@@ -1,7 +1,7 @@
 import proj4 from 'proj4'
 
 /**
- * largely adapted from OS Transform helper functions at https://github.com/OrdnanceSurvey/os-transform
+ * Adapted from OS Transform helper functions at https://github.com/OrdnanceSurvey/os-transform
  */
 
 proj4.defs(

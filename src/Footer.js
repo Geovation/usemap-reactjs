@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { styled, alpha } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 
 const FooterContainer = styled('div')(({ theme }) => ({
   position: 'fixed',
@@ -11,25 +11,8 @@ const FooterContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 1),
   width: '100%',
-  height: '60px'
-}))
-
-const UseMapSpan = styled('span')(({ theme }) => ({
-  postion: 'absolute',
-  left: '10px',
-  padding: 5
-}))
-
-const UseMapLink = styled('a')(({ theme }) => ({
-  '&:link': {
-    color: theme.palette.common.white
-  },
-  '&:hover': {
-    color: theme.palette.common.red
-  }
+  padding: theme.spacing(1)
 }))
 
 function Footer () {
@@ -37,12 +20,9 @@ function Footer () {
     <FooterContainer>
       <img
         alt='UseMap Logo'
-        height='55'
+        height='95'
         src={process.env.PUBLIC_URL + '/elelogo_transp.png'}
       />
-      <UseMapSpan>
-        UseMap | <UseMapLink href='#'>Terms and Conditions</UseMapLink>
-      </UseMapSpan>
     </FooterContainer>
   )
 }

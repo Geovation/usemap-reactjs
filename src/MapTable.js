@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
-export default function MapTable (props) {
+function MapTable (props) {
   const { tableData } = props
   return (
     <TableContainer component={Paper} elevation={0}>
@@ -28,3 +28,5 @@ export default function MapTable (props) {
     </TableContainer>
   )
 }
+
+export default MapTable
